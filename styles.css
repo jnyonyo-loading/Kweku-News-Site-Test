@@ -55,9 +55,11 @@ body {
   width: 44px;
   height: 44px;
   flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.logo-icon svg { width: 100%; height: 100%; }
+.logo-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
 .wordmark-text {
   display: flex;

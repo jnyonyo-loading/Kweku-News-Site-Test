@@ -100,13 +100,7 @@ function timeAgo(iso) {
   return `${m} months ago`;
 }
 
-// ── Logo SVG ──────────────────────────────────────────────
-const LOGO_SM_SVG = `
-  <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="80" height="80" rx="14" fill="#0f1f17"/>
-    <rect x="36" y="14" width="8" height="52" rx="4" fill="#3dd68c"/>
-    <rect x="14" y="36" width="52" height="8" rx="4" fill="#3dd68c"/>
-  </svg>`;
+const LOGO_SM_SVG = `<img src="kt-logo.png" alt="Kweku Tech" style="width:100%;height:100%;object-fit:contain;" />`;
 
 // ── Build carousel cards ──────────────────────────────────
 function buildCarousel() {
