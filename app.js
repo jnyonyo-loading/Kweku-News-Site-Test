@@ -123,6 +123,7 @@ function buildCarousel() {
 
     return `
       <a class="kcard" href="${esc(a.url)}" target="_blank" rel="noopener">
+        <div class="kcard-img-wrap">${imgHtml}</div>
         <div class="kcard-header">
           <div class="kcard-handle">
             <div class="kcard-dots">
@@ -139,7 +140,6 @@ function buildCarousel() {
           <h2 class="kcard-title">${esc(a.title)}</h2>
           <p class="kcard-excerpt">${esc(a.excerpt)}</p>
         </div>
-        <div class="kcard-img-wrap">${imgHtml}</div>
         <div class="kcard-footer">
           <div class="kcard-likes">
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
