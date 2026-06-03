@@ -162,8 +162,9 @@ function buildDots() {
 
 function goTo(idx, animate = true) {
   currentSlide = ((idx % ARTICLES.length) + ARTICLES.length) % ARTICLES.length;
+  console.log('[carousel] goTo — currentSlide:', currentSlide, '| viewport.offsetWidth:', viewport.offsetWidth);
   track.style.transition = animate ? 'transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)' : 'none';
-  track.style.transform = `translateX(-${currentSlide * 100}%)`;
+  track.style.transform = `translateX(-${currentSlide * viewport.offsetWidth}px)`;
   dotsWrap.querySelectorAll('.cdot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
 }
 
@@ -186,6 +187,19 @@ nextBtn.addEventListener('click', () => { next(); resetTimer(); });
 const viewport = document.getElementById('carousel-viewport');
 viewport.addEventListener('mouseenter', () => clearInterval(autoTimer));
 viewport.addEventListener('mouseleave', startTimer);
+
+// Touch swipe support
+let touchStartX = 0;
+viewport.addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+}, { passive: true });
+viewport.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 40) {
+    dx < 0 ? next() : prev();
+    resetTimer();
+  }
+}, { passive: true });
 
 // ── Tag filters ───────────────────────────────────────────
 function buildTagFilters() {
@@ -294,4 +308,4 @@ seeAllBtn.addEventListener('click', () => {
 
 loadMoreBtn.addEventListener('click', () => appendRows(PAGE_SIZE));
 
-init();
+document.addEventListener('DOMContentLoaded', init);
