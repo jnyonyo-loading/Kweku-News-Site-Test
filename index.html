@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kweku Tech — Articles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ══════════════════ HERO ══════════════════ -->
+  <section class="hero" id="hero">
+
+    <!-- Left column -->
+    <div class="hero-left">
+
+      <!-- Logo wordmark -->
+      <div class="wordmark">
+        <div class="logo-icon" aria-hidden="true">
+          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="80" height="80" rx="16" fill="#0f1f17"/>
+            <rect x="36" y="14" width="8" height="52" rx="4" fill="#3dd68c"/>
+            <rect x="14" y="36" width="52" height="8" rx="4" fill="#3dd68c"/>
+          </svg>
+        </div>
+        <div class="wordmark-text">
+          <span class="wordmark-kweku">Kweku</span>
+          <span class="wordmark-tech">Tech</span>
+        </div>
+      </div>
+
+      <!-- Hero copy -->
+      <div class="hero-copy">
+        <h1 class="hero-headline">
+          Stories &amp; Insights<br>from Africa's<br>
+          <span class="headline-green">Tech Frontier</span>
+        </h1>
+        <p class="hero-desc">
+          From in-depth interviews with founders to recaps of the continent's biggest conferences,
+          this is your go-to space for tech news, event highlights, and creative perspectives.
+        </p>
+      </div>
+
+      <!-- CTA -->
+      <button class="hero-cta" id="see-all-btn">
+        See all articles
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7 2L7 12M7 12L3 8M7 12L11 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+    </div>
+
+    <!-- Right column — carousel -->
+    <div class="hero-right">
+
+      <div class="carousel-wrap">
+        <!-- Cards viewport -->
+        <div class="carousel-viewport" id="carousel-viewport">
+          <div class="carousel-track" id="carousel-track">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- Controls row -->
+        <div class="carousel-controls">
+          <div class="carousel-dots" id="carousel-dots"></div>
+          <div class="carousel-arrows">
+            <button class="arrow-btn" id="prev-btn" aria-label="Previous">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button class="arrow-btn" id="next-btn" aria-label="Next">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════ ARTICLE LIST ══════════════════ -->
+  <section class="list-scene" id="list-scene">
+    <div class="container">
+
+      <div class="list-header">
+        <h2 class="list-title">Latest Articles</h2>
+      </div>
+
+      <div class="tag-row" id="tag-row"></div>
+
+      <div class="article-list" id="article-list"></div>
+
+      <div id="load-more-wrap" class="load-more-wrap" style="display:none">
+        <button id="load-more-btn" class="load-more-btn">Load more articles</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════ ARTICLE DETAIL ══════════════════ -->
+  <div id="article-view" class="article-view hidden">
+    <div class="container art-container">
+      <button class="art-back" id="back-btn">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back
+      </button>
+      <article id="art-content"></article>
+    </div>
+  </div>
+
+  <!-- ══════════════════ STATES ══════════════════ -->
+  <div id="loading-veil" class="loading-veil">
+    <div class="spinner"></div>
+  </div>
+
+  <div id="error-veil" class="error-veil hidden">
+    <p>Could not load articles. <button id="retry-btn">Retry</button></p>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
