@@ -660,6 +660,105 @@ body {
 
 .load-more-btn:hover { border-color: var(--green); color: var(--green); }
 
+/* ── Podcasts ─────────────────────────────────────────── */
+.podcast-scene {
+  padding: 64px 0 80px;
+  border-top: 1px solid var(--border);
+}
+
+.podcast-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.podcast-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 6px;
+}
+
+.podcast-title {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.podcast-arrows {
+  display: flex;
+  gap: 8px;
+}
+
+.podcast-viewport {
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  /* hide scrollbar across all browsers */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.podcast-viewport::-webkit-scrollbar { display: none; }
+
+.podcast-track {
+  display: flex;
+  gap: 16px;
+  /* width must be explicit so card % calc has a reference */
+  width: max-content;
+}
+
+.pod-card {
+  flex: 0 0 320px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.pod-thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+
+.pod-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.pod-card:hover .pod-thumb img { transform: scale(1.04); }
+
+.pod-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.pod-card:hover .pod-play { opacity: 0.85; }
+
+.pod-title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--text);
+}
+
 /* ── Loading / Error ─────────────────────────────────── */
 .loading-veil {
   position: fixed;
@@ -743,6 +842,9 @@ body {
   .list-scene { padding: 52px 0 72px; }
 
   .article-list { grid-template-columns: repeat(2, 1fr); }
+
+  /* Podcasts: smaller cards so 2 are visible on tablet */
+  .pod-card { flex: 0 0 260px; width: 260px; }
 }
 
 /* ── Mobile: ≤ 600px ─────────────────────────────────── */
@@ -822,6 +924,32 @@ body {
   .article-list { grid-template-columns: 1fr; }
 
   .list-header { margin-bottom: 20px; padding-bottom: 16px; }
+
+  /* Podcasts — mobile */
+  .podcast-scene { padding: 36px 0 56px; }
+
+  /* Break viewport out of container padding so cards bleed edge-to-edge */
+  .podcast-viewport {
+    margin: 0 -20px;
+    padding: 0 20px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Each card: ~85 vw so the next card peeks in from the right */
+  .pod-card {
+    flex: 0 0 82vw;
+    width: 82vw;
+    scroll-snap-align: start;
+  }
+
+  /* Last card: add right padding so it doesn't sit flush against edge */
+  .pod-card:last-child { margin-right: 20px; }
+
+  /* Hide arrows on mobile — swipe is the gesture */
+  .podcast-arrows { display: none; }
+
+  .pod-title { font-size: 13px; }
 
   .tag-row { margin-bottom: 20px; gap: 6px; }
 

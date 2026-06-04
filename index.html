@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="no-referrer" />
   <title>Kweku Tech — Articles</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -95,17 +96,6 @@
 
               <div class="hero-logo-chip"><span class="chip-div">&lt;D∀V/&gt;</span></div>
 
-              <div class="hero-logo-chip">
-                <svg width="10" height="15" viewBox="0 0 10 15" fill="none">
-                  <rect x="0" y="0" width="5" height="5" rx="2.5" fill="#f24e1e"/>
-                  <rect x="5" y="0" width="5" height="5" rx="2.5" fill="#ff7262"/>
-                  <rect x="0" y="5" width="5" height="5" rx="2.5" fill="#a259ff"/>
-                  <rect x="0" y="10" width="5" height="5" rx="2.5" fill="#0acf83"/>
-                  <circle cx="7.5" cy="7.5" r="2.5" fill="#1abcfe"/>
-                </svg>
-                <span>Figma Accra</span>
-              </div>
-
               <div class="hero-logo-chip"><span class="chip-bba">BBA</span><span class="chip-sub">&nbsp;Ghana</span></div>
 
             </div>
@@ -116,7 +106,7 @@
 
       <!-- CTA -->
       <button class="hero-cta" id="see-all-btn">
-        <span class="cta-desktop">See all articles</span>
+        <span class="cta-desktop">See all articles &amp; podcasts</span>
         <span class="cta-mobile">Read articles below</span>
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path d="M7 2L7 12M7 12L3 8M7 12L11 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -200,16 +190,6 @@
           <div class="hero-logo-chip"><span class="chip-amid">AMID</span><span class="chip-amid-sub">&nbsp;Africa</span></div>
           <div class="hero-logo-chip"><span class="chip-defi">DeFi</span><span class="chip-sub">&nbsp;Africa</span></div>
           <div class="hero-logo-chip"><span class="chip-div">&lt;D∀V/&gt;</span></div>
-          <div class="hero-logo-chip">
-            <svg width="10" height="15" viewBox="0 0 10 15" fill="none">
-              <rect x="0" y="0" width="5" height="5" rx="2.5" fill="#f24e1e"/>
-              <rect x="5" y="0" width="5" height="5" rx="2.5" fill="#ff7262"/>
-              <rect x="0" y="5" width="5" height="5" rx="2.5" fill="#a259ff"/>
-              <rect x="0" y="10" width="5" height="5" rx="2.5" fill="#0acf83"/>
-              <circle cx="7.5" cy="7.5" r="2.5" fill="#1abcfe"/>
-            </svg>
-            <span>Figma Accra</span>
-          </div>
           <div class="hero-logo-chip"><span class="chip-bba">BBA</span><span class="chip-sub">&nbsp;Ghana</span></div>
         </div>
       </div>
@@ -231,6 +211,80 @@
 
       <div id="load-more-wrap" class="load-more-wrap" style="display:none">
         <button id="load-more-btn" class="load-more-btn">Load more articles</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════ PODCASTS ══════════════════ -->
+  <section class="podcast-scene">
+    <div class="container">
+
+      <div class="podcast-header">
+        <div>
+          <p class="podcast-eyebrow">Watch &amp; Listen</p>
+          <h2 class="podcast-title">Podcasts</h2>
+        </div>
+        <div class="podcast-arrows">
+          <button class="arrow-btn" id="pod-prev-btn" aria-label="Previous episode">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button class="arrow-btn" id="pod-next-btn" aria-label="Next episode">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="podcast-viewport" id="podcast-viewport">
+        <div class="podcast-track" id="podcast-track">
+
+          <!-- Card 1 -->
+          <a class="pod-card" href="https://www.youtube.com/watch?v=BiwSY-GYF4g" target="_blank" rel="noopener">
+            <div class="pod-thumb">
+              <img src="https://i.ytimg.com/vi/BiwSY-GYF4g/hqdefault.jpg" alt="He left $500K to build Africa's PayPal" referrerpolicy="no-referrer" crossorigin="anonymous" />
+              <div class="pod-play">
+                <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+                  <circle cx="26" cy="26" r="26" fill="rgba(0,0,0,0.6)"/>
+                  <path d="M22 18L36 26L22 34V18Z" fill="white"/>
+                </svg>
+              </div>
+            </div>
+            <p class="pod-title">He left $500K to build Africa's PayPal | CEO of Payd</p>
+          </a>
+
+          <!-- Card 2 -->
+          <a class="pod-card" href="https://www.youtube.com/watch?v=EHxg91FymMQ" target="_blank" rel="noopener">
+            <div class="pod-thumb">
+              <img src="https://i.ytimg.com/vi/EHxg91FymMQ/hqdefault.jpg" alt="The Sophisticated Software Engineer" referrerpolicy="no-referrer" crossorigin="anonymous" />
+              <div class="pod-play">
+                <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+                  <circle cx="26" cy="26" r="26" fill="rgba(0,0,0,0.6)"/>
+                  <path d="M22 18L36 26L22 34V18Z" fill="white"/>
+                </svg>
+              </div>
+            </div>
+            <p class="pod-title">The Sophisticated Software Engineer: The Truth About Modern Coding</p>
+          </a>
+
+          <!-- Card 3 -->
+          <a class="pod-card" href="https://www.youtube.com/watch?v=tgrbD2skW54" target="_blank" rel="noopener">
+            <div class="pod-thumb">
+              <img src="https://i.ytimg.com/vi/tgrbD2skW54/hqdefault.jpg" alt="Student by Day, Dev Lead by Night" referrerpolicy="no-referrer" crossorigin="anonymous" />
+              <div class="pod-play">
+                <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+                  <circle cx="26" cy="26" r="26" fill="rgba(0,0,0,0.6)"/>
+                  <path d="M22 18L36 26L22 34V18Z" fill="white"/>
+                </svg>
+              </div>
+            </div>
+            <p class="pod-title">Student by Day, Dev Lead by Night | The Story of Sui Ghana DevLead</p>
+          </a>
+
+        </div>
       </div>
 
     </div>

@@ -62,6 +62,24 @@ const ARTICLES = [
   },
 ];
 
+const PODCASTS = [
+  {
+    id: 'BiwSY-GYF4g',
+    title: 'He left $500K to build Africa\'s PayPal | CEO of Payd',
+    url: 'https://www.youtube.com/watch?v=BiwSY-GYF4g',
+  },
+  {
+    id: 'EHxg91FymMQ',
+    title: 'The Sophisticated Software Engineer: The Truth About Modern Coding',
+    url: 'https://www.youtube.com/watch?v=EHxg91FymMQ',
+  },
+  {
+    id: 'tgrbD2skW54',
+    title: 'Student by Day, Dev Lead by Night | The Story of Sui Ghana DevLead',
+    url: 'https://www.youtube.com/watch?v=tgrbD2skW54',
+  },
+];
+
 const PAGE_SIZE = 6;
 const AUTO_INTERVAL = 5000;
 
@@ -271,12 +289,24 @@ function appendRows(n) {
   loadMoreWrap.style.display = displayedCount < filteredArticles.length ? 'block' : 'none';
 }
 
+// ── Podcasts ──────────────────────────────────────────────
+function buildPodcasts() {
+  const podViewport = document.getElementById('podcast-viewport');
+  const podPrev     = document.getElementById('pod-prev-btn');
+  const podNext     = document.getElementById('pod-next-btn');
+  const cardWidth   = () => podViewport.querySelector('.pod-card').offsetWidth + 16;
+
+  podPrev.addEventListener('click', () => podViewport.scrollBy({ left: -cardWidth(), behavior: 'smooth' }));
+  podNext.addEventListener('click', () => podViewport.scrollBy({ left:  cardWidth(), behavior: 'smooth' }));
+}
+
 // ── Init ──────────────────────────────────────────────────
 function init() {
   buildCarousel();
   startTimer();
   buildTagFilters();
   filterAndRender();
+  buildPodcasts();
 
   // Hide loading veil
   loadingVeil.classList.add('done');
