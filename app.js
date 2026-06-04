@@ -230,59 +230,41 @@ function filterAndRender() {
 function appendRows(n) {
   const slice = filteredArticles.slice(displayedCount, displayedCount + n);
   slice.forEach(a => {
-    const row = document.createElement('a');
-    row.className = 'article-row';
-    row.href = a.url;
-    row.target = '_blank';
-    row.rel = 'noopener';
+    const card = document.createElement('a');
+    card.className = 'art-card';
+    card.href = a.url;
+    card.target = '_blank';
+    card.rel = 'noopener';
 
-    const thumbHtml = a.image
+    const imgHtml = a.image
       ? `<img src="${esc(a.image)}" alt="${esc(a.title)}" loading="lazy" />`
-      : `<div class="row-no-thumb">
-           <svg width="22" height="22" viewBox="0 0 22 22" fill="none" opacity=".2">
-             <rect x="1" y="3" width="20" height="16" rx="2" stroke="#3dd68c" stroke-width="1.2"/>
-             <circle cx="7" cy="9" r="2" stroke="#3dd68c" stroke-width="1.2"/>
-             <path d="M1 16l5-4 4 3 4-2.5 7 5" stroke="#3dd68c" stroke-width="1.2" stroke-linejoin="round"/>
-           </svg>
-         </div>`;
+      : `<div class="art-card-no-img"></div>`;
 
-    row.innerHTML = `
-      <div class="article-row-body">
-        <div class="row-byline">
-          <div class="row-author-icon">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-              <circle cx="5" cy="3.5" r="2" stroke="#3dd68c" stroke-width="1"/>
-              <path d="M1 9c0-2.2 1.8-4 4-4s4 1.8 4 4" stroke="#3dd68c" stroke-width="1" stroke-linecap="round"/>
-            </svg>
+    card.innerHTML = `
+      <div class="art-card-img">${imgHtml}</div>
+      <div class="art-card-body">
+        <span class="art-card-cat">${esc(a.category)}</span>
+        <h3 class="art-card-title">${esc(a.title)}</h3>
+        <p class="art-card-excerpt">${esc(a.excerpt)}</p>
+      </div>
+      <div class="art-card-footer">
+        <div class="art-card-author">
+          <div class="art-card-avatar"><img src="kt-logo.png" alt="Kweku Tech" /></div>
+          <div>
+            <span class="art-card-name">Kweku Tech</span>
+            <span class="art-card-date">${timeAgo(a.date)}</span>
           </div>
-          Kweku Tech
-          <div class="row-byline-dot"></div>
-          <span class="row-category">${esc(a.category)}</span>
         </div>
-        <h2 class="row-title">${esc(a.title)}</h2>
-        <p class="row-excerpt">${esc(a.excerpt)}</p>
-        <div class="row-meta">
-          <span>${timeAgo(a.date)}</span>
-          <span class="row-meta-sep">·</span>
-          <span class="row-likes">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M6 10.5C6 10.5 1 7.2 1 4.2C1 2.9 2 2 3.2 2C4.2 2 5 2.6 6 3.5C7 2.6 7.8 2 8.8 2C10 2 11 2.9 11 4.2C11 7.2 6 10.5 6 10.5Z" stroke="currentColor" stroke-width="1.1"/>
-            </svg>
-            ${a.likes}
-          </span>
-          <span class="row-meta-sep">·</span>
+        <div class="art-card-likes">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <circle cx="2.5" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.1"/>
-            <circle cx="10.5" cy="2.5" r="1.5" stroke="currentColor" stroke-width="1.1"/>
-            <circle cx="10.5" cy="10.5" r="1.5" stroke="currentColor" stroke-width="1.1"/>
-            <path d="M4 5.8l5-2.8M4 7.2l5 2.8" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+            <path d="M6.5 11C6.5 11 1.5 7.5 1.5 4.5C1.5 3.1 2.6 2 4 2C5.1 2 5.9 2.6 6.5 3.4C7.1 2.6 7.9 2 9 2C10.4 2 11.5 3.1 11.5 4.5C11.5 7.5 6.5 11 6.5 11Z" stroke="currentColor" stroke-width="1.2"/>
           </svg>
+          ${a.likes}
         </div>
       </div>
-      <div class="row-thumb">${thumbHtml}</div>
     `;
 
-    articleList.appendChild(row);
+    articleList.appendChild(card);
   });
 
   displayedCount += slice.length;
