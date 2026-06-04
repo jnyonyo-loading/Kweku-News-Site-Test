@@ -445,6 +445,11 @@ body {
 }
 
 /* ── Article list section ────────────────────────────── */
+/* Mobile logos block — hidden on desktop, shown on mobile above articles */
+.mobile-logos-block {
+  display: none;
+}
+
 .list-scene {
   padding: 64px 0 80px;
 }
@@ -760,9 +765,32 @@ body {
     line-height: 1.65;
   }
 
-  /* Hide description and logos on mobile */
+  /* Hide description and logos on mobile (shown separately below hero) */
   .hero-desc { display: none; }
   .hero-logos { display: none; }
+
+  /* Mobile logos block — shown above article list */
+  .mobile-logos-block {
+    display: block;
+    padding: 28px 0 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .mobile-logos-block .container {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .mobile-logos-block .hero-logos-row {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .mobile-logos-block .hero-logo-chip {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
 
   /* CTA becomes a slim green text line */
   .hero-cta {
