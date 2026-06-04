@@ -227,26 +227,31 @@ function buildCarousel() {
       : `<div class="kcard-no-img"></div>`;
     return `
       <a class="kcard" href="${esc(a.url)}" target="_blank" rel="noopener">
-        <div class="kcard-img">${imgHtml}</div>
+        <div class="kcard-header">
+          <div class="kcard-handle">
+            <div class="kcard-dots">
+              <div class="kcard-dot"></div>
+              <div class="kcard-dot"></div>
+              <div class="kcard-dot"></div>
+            </div>
+            <span>kwekutech</span>
+          </div>
+          <div class="kcard-logo-sm"><img src="kt-logo.png" alt="Kweku Tech" style="width:100%;height:100%;object-fit:contain;" /></div>
+        </div>
         <div class="kcard-body">
-          <span class="kcard-cat">${esc(a.category)}</span>
+          <span class="kcard-category">${esc(a.category)}</span>
           <h2 class="kcard-title">${esc(a.title)}</h2>
           <p class="kcard-excerpt">${esc(a.excerpt)}</p>
         </div>
+        <div class="kcard-img-wrap">${imgHtml}</div>
         <div class="kcard-footer">
-          <div class="kcard-author">
-            <div class="kcard-avatar"><img src="kt-logo.png" alt="Kweku Tech" /></div>
-            <div>
-              <span class="kcard-name">Kweku Tech</span>
-              <span class="kcard-date">${timeAgo(a.date)}</span>
-            </div>
-          </div>
           <div class="kcard-likes">
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
               <path d="M6.5 11C6.5 11 1.5 7.5 1.5 4.5C1.5 3.1 2.6 2 4 2C5.1 2 5.9 2.6 6.5 3.4C7.1 2.6 7.9 2 9 2C10.4 2 11.5 3.1 11.5 4.5C11.5 7.5 6.5 11 6.5 11Z" stroke="currentColor" stroke-width="1.2"/>
             </svg>
-            ${a.likes}
+            ${a.likes} likes
           </div>
+          <span class="kcard-readmore">Read article →</span>
         </div>
       </a>`;
   }).join('');
@@ -255,6 +260,10 @@ function buildCarousel() {
   dotsWrap.innerHTML = ARTICLES.map((_, i) =>
     `<button class="cdot ${i === 0 ? 'active' : ''}" data-i="${i}" aria-label="Slide ${i+1}"></button>`
   ).join('');
+  // Stamp explicit pixel widths now and after first paint
+  fitCarouselCards();
+  requestAnimationFrame(fitCarouselCards);
+
   dotsWrap.querySelectorAll('.cdot').forEach(btn =>
     btn.addEventListener('click', () => { goTo(parseInt(btn.dataset.i)); resetTimer(); })
   );
@@ -274,11 +283,29 @@ function buildCarousel() {
   }, { passive: true });
 }
 
+// Set every carousel card to exactly the viewport's rendered pixel width.
+// Bypasses the flex 0 0 100% circular-dependency on the track's own width.
+function fitCarouselCards() {
+  const vp   = document.getElementById('carousel-viewport');
+  const rect = vp.getBoundingClientRect();
+  const w    = rect.width;
+  console.log('[fitCarouselCards] viewport getBoundingClientRect:', rect);
+  console.log('[fitCarouselCards] width being used:', w, '| window.innerWidth:', window.innerWidth);
+  if (!w) { console.warn('[fitCarouselCards] width is 0 — skipping'); return; }
+  document.querySelectorAll('#carousel-track .kcard').forEach((card, i) => {
+    card.style.width     = w + 'px';
+    card.style.flexBasis = w + 'px';
+    card.style.maxWidth  = w + 'px';
+    console.log(`[fitCarouselCards] card[${i}] set to ${w}px`);
+  });
+}
+
 function goTo(idx, animate = true) {
   const n = ARTICLES.length;
   currentSlide = ((idx % n) + n) % n;
   const vp = document.getElementById('carousel-viewport');
-  vp.scrollTo({ left: currentSlide * vp.offsetWidth, behavior: animate ? 'smooth' : 'instant' });
+  const w  = vp.getBoundingClientRect().width;
+  vp.scrollTo({ left: currentSlide * w, behavior: animate ? 'smooth' : 'instant' });
   document.querySelectorAll('.cdot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
 }
 
@@ -286,31 +313,40 @@ function startTimer() { autoTimer = setInterval(() => goTo(currentSlide + 1), AU
 function resetTimer()  { clearInterval(autoTimer); if (viewMode === 'carousel') startTimer(); }
 
 // ── View toggle ───────────────────────────────────────────
-function toggleView() {
-  const btn        = document.getElementById('view-toggle');
+function setView(mode) {
+  if (mode === viewMode) return;
+  viewMode = mode;
+
+  const desktopBtn = document.getElementById('view-toggle');
   const gridPanel  = document.getElementById('hero-grid-panel');
   const carPanel   = document.getElementById('hero-carousel-panel');
 
-  // Spin the button
-  btn.classList.remove('is-spinning');
-  void btn.offsetWidth;
-  btn.classList.add('is-spinning');
-
-  viewMode = viewMode === 'grid' ? 'carousel' : 'grid';
-  btn.dataset.mode = viewMode;
-  btn.setAttribute('aria-label',
+  // Spin desktop toggle
+  desktopBtn.classList.remove('is-spinning');
+  void desktopBtn.offsetWidth;
+  desktopBtn.classList.add('is-spinning');
+  desktopBtn.dataset.mode = viewMode;
+  desktopBtn.setAttribute('aria-label',
     viewMode === 'grid' ? 'Switch to carousel view' : 'Switch to grid view'
   );
+
+  // Sync mobile toggle active states
+  document.getElementById('mvt-grid').classList.toggle('mvt-active', viewMode === 'grid');
+  document.getElementById('mvt-carousel').classList.toggle('mvt-active', viewMode === 'carousel');
 
   if (viewMode === 'carousel') {
     gridPanel.classList.add('view-hidden');
     carPanel.classList.remove('view-hidden');
-    requestAnimationFrame(() => { goTo(currentSlide, false); startTimer(); });
+    requestAnimationFrame(() => { fitCarouselCards(); goTo(currentSlide, false); startTimer(); });
   } else {
     carPanel.classList.add('view-hidden');
     gridPanel.classList.remove('view-hidden');
     clearInterval(autoTimer);
   }
+}
+
+function toggleView() {
+  setView(viewMode === 'grid' ? 'carousel' : 'grid');
 }
 
 // ── Podcasts ──────────────────────────────────────────────
@@ -334,6 +370,12 @@ function init() {
   buildPodcasts();
 
   document.getElementById('view-toggle').addEventListener('click', toggleView);
+
+  window.addEventListener('resize', () => {
+    if (viewMode === 'carousel') { fitCarouselCards(); goTo(currentSlide, false); }
+  });
+  document.getElementById('mvt-grid').addEventListener('click',     () => setView('grid'));
+  document.getElementById('mvt-carousel').addEventListener('click', () => setView('carousel'));
 
   // CTA scrolls to article list
   seeAllBtn.addEventListener('click', () => {

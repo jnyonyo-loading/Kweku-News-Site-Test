@@ -208,6 +208,30 @@ body {
   font-weight: 400;
 }
 
+/* CTA row + mobile view toggle */
+.hero-cta-row    { display: contents; }  /* transparent wrapper on desktop */
+.mobile-view-toggle { display: none; }   /* hidden on desktop */
+
+.mvt-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-mute);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  font-family: var(--font);
+}
+
+.mvt-btn.mvt-active {
+  color: var(--green);
+  border-color: rgba(61,214,140,0.5);
+  background: rgba(61,214,140,0.1);
+}
+
 /* CTA text toggles */
 .cta-mobile { display: none; }
 .cta-desktop { display: inline; }
@@ -335,11 +359,13 @@ body {
 
 .carousel-track { display: flex; }
 
-/* Carousel card */
+/* Carousel card — header top, text body, image bottom, footer */
 .kcard {
   flex: 0 0 100%;
+  min-width: 0;
+  max-width: 100%;
   scroll-snap-align: start;
-  background: var(--surface);
+  background: #101410;
   border-radius: var(--r);
   border: 1px solid rgba(61,214,140,0.1);
   overflow: hidden;
@@ -350,17 +376,94 @@ body {
   transition: border-color 0.2s;
 }
 
-.kcard:hover { border-color: rgba(61,214,140,0.35); }
+.kcard:hover { border-color: rgba(61,214,140,0.3); }
 
-.kcard-img {
-  width: 100%;
-  aspect-ratio: 16/9;
-  overflow: hidden;
+/* Header bar */
+.kcard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
   flex-shrink: 0;
-  background: var(--surface-2);
 }
 
-.kcard-img img {
+.kcard-handle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--text-mute);
+  font-weight: 500;
+}
+
+.kcard-dots { display: flex; gap: 4px; }
+
+.kcard-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-mute);
+}
+
+.kcard-logo-sm {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+/* Body text */
+.kcard-body {
+  padding: 18px 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.kcard-category {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #0D0D0B;
+  background: var(--green);
+  padding: 3px 10px;
+  border-radius: 30px;
+  align-self: flex-start;
+}
+
+.kcard-title {
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.kcard-excerpt {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text-sub);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Image at bottom */
+.kcard-img-wrap {
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: var(--surface-2);
+  flex-shrink: 0;
+}
+
+.kcard-img-wrap img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -369,61 +472,32 @@ body {
   transition: transform 0.35s ease;
 }
 
-.kcard:hover .kcard-img img { transform: scale(1.03); }
+.kcard:hover .kcard-img-wrap img { transform: scale(1.03); }
 
 .kcard-no-img { width: 100%; height: 100%; background: var(--surface-2); }
 
-.kcard-body {
-  padding: 16px 18px 14px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.kcard-cat {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--green);
-}
-
-.kcard-title {
-  font-size: 17px;
-  font-weight: 800;
-  line-height: 1.3;
-  letter-spacing: -0.3px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.kcard-excerpt {
-  font-size: 12.5px;
-  line-height: 1.6;
-  color: var(--text-sub);
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  flex: 1;
-}
-
+/* Footer */
 .kcard-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 18px;
-  border-top: 1px solid var(--border);
+  padding: 10px 16px;
+  border-top: 1px solid rgba(255,255,255,0.05);
   flex-shrink: 0;
 }
 
-.kcard-author {
+.kcard-likes {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--text-mute);
+}
+
+.kcard-readmore {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--green);
 }
 
 .kcard-avatar {
@@ -1266,11 +1340,94 @@ body {
   .cta-desktop { display: none; }
   .cta-mobile  { display: inline; }
 
-  /* Hero right */
-  .hero-view-panel { padding: 16px 16px 24px; }
+  /* CTA + mobile toggle on same line */
+  .hero-cta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
 
-  /* Hide toggle on mobile — no divider to sit on */
+  .mobile-view-toggle {
+    display: flex;
+    gap: 6px;
+  }
+
+  /* Hide the desktop divider toggle on mobile */
   .view-toggle { display: none; }
+
+  /* Remove full-height constraint so hero sizes to content on mobile */
+  .hero { min-height: unset; }
+
+  /* Collapse hidden panel so it doesn't create blank space */
+  .view-hidden {
+    height: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+  }
+
+  /* 2-column hero grid on mobile */
+  .hero-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    width: 100%;
+    max-width: 100%;
+    max-height: none;
+    overflow: hidden;
+  }
+
+  /* Compact hero grid cards — no overflow */
+  .hcard {
+    min-width: 0;
+    overflow: hidden;
+    max-width: 100%;
+  }
+
+  .hcard-img {
+    aspect-ratio: unset;
+    height: 100px;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .hcard-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .hcard-title {
+    font-size: 13px;
+    -webkit-line-clamp: 3;
+  }
+
+  .hcard-excerpt,
+  .hcard-footer { display: none; }
+
+  .hcard-body { padding: 6px 8px 8px; gap: 2px; }
+
+  /* Constrain carousel panel to screen width */
+  .carousel-wrap {
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
+  }
+
+  .carousel-viewport {
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
+  }
+
+  .kcard {
+    width: 100%;
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+
+  /* Hero right */
+  .hero-view-panel { padding: 12px 12px 16px; }
 
   /* Container */
   .container { padding: 0 20px; }

@@ -156,14 +156,36 @@
         </div>
       </div>
 
-      <!-- CTA -->
-      <button class="hero-cta" id="see-all-btn">
-        <span class="cta-desktop">See all articles &amp; podcasts</span>
-        <span class="cta-mobile">Read articles below</span>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M7 2L7 12M7 12L3 8M7 12L11 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
+      <!-- CTA + mobile view toggle row -->
+      <div class="hero-cta-row">
+        <button class="hero-cta" id="see-all-btn">
+          <span class="cta-desktop">See all articles &amp; podcasts</span>
+          <span class="cta-mobile">Read articles below</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M7 2L7 12M7 12L3 8M7 12L11 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <!-- Mobile-only: two icon buttons for grid/carousel toggle -->
+        <div class="mobile-view-toggle" id="mobile-view-toggle">
+          <button class="mvt-btn mvt-active" id="mvt-grid" aria-label="Grid view">
+            <svg width="22" height="22" viewBox="0 0 15 15" fill="currentColor">
+              <rect x="0" y="0" width="6.5" height="6.5" rx="1.2"/>
+              <rect x="8.5" y="0" width="6.5" height="6.5" rx="1.2"/>
+              <rect x="0" y="8.5" width="6.5" height="6.5" rx="1.2"/>
+              <rect x="8.5" y="8.5" width="6.5" height="6.5" rx="1.2"/>
+            </svg>
+          </button>
+          <button class="mvt-btn" id="mvt-carousel" aria-label="Carousel view">
+            <svg width="22" height="22" viewBox="0 0 16 16" fill="none">
+              <rect x="2" y="1.5" width="12" height="13" rx="2" stroke="currentColor" stroke-width="1.3"/>
+              <rect x="2" y="1.5" width="12" height="5.5" rx="2" fill="currentColor" opacity=".25"/>
+              <rect x="4" y="9.5" width="8" height="1.3" rx="0.65" fill="currentColor"/>
+              <rect x="4" y="12" width="5.5" height="1.3" rx="0.65" fill="currentColor" opacity=".6"/>
+            </svg>
+          </button>
+        </div>
+      </div>
 
     </div>
 
@@ -171,11 +193,10 @@
     <button class="view-toggle" id="view-toggle" data-mode="grid" aria-label="Switch to carousel view">
       <!-- Shown in grid mode → clicking goes to carousel -->
       <svg class="ti-carousel" width="32" height="32" viewBox="0 0 16 16" fill="none">
-        <rect x="2.5" y="1.5" width="11" height="13" rx="2" stroke="currentColor" stroke-width="1.4"/>
-        <circle cx="5" cy="4.5" r="0.9" fill="currentColor"/>
-        <circle cx="8" cy="4.5" r="0.9" fill="currentColor"/>
-        <circle cx="11" cy="4.5" r="0.9" fill="currentColor"/>
-        <rect x="4.5" y="6.5" width="7" height="5" rx="1" fill="currentColor" opacity=".25"/>
+        <rect x="2" y="1.5" width="12" height="13" rx="2" stroke="currentColor" stroke-width="1.3"/>
+        <rect x="2" y="1.5" width="12" height="5.5" rx="2" fill="currentColor" opacity=".25"/>
+        <rect x="4" y="9.5" width="8" height="1.3" rx="0.65" fill="currentColor"/>
+        <rect x="4" y="12" width="5.5" height="1.3" rx="0.65" fill="currentColor" opacity=".6"/>
       </svg>
       <!-- Shown in carousel mode → clicking goes to grid -->
       <svg class="ti-grid" width="30" height="30" viewBox="0 0 15 15" fill="currentColor">
@@ -525,6 +546,6 @@
     <p>Could not load articles. <button id="retry-btn">Retry</button></p>
   </div>
 
-  <script src="app.js?v=10"></script>
+  <script src="app.js?v=16"></script>
 </body>
 </html>
