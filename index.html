@@ -167,31 +167,57 @@
 
     </div>
 
-    <!-- Right column — carousel -->
+    <!-- View toggle — sits on the dividing line -->
+    <button class="view-toggle" id="view-toggle" data-mode="grid" aria-label="Switch to carousel view">
+      <!-- Shown in grid mode → clicking goes to carousel -->
+      <svg class="ti-carousel" width="32" height="32" viewBox="0 0 16 16" fill="none">
+        <rect x="2.5" y="1.5" width="11" height="13" rx="2" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="5" cy="4.5" r="0.9" fill="currentColor"/>
+        <circle cx="8" cy="4.5" r="0.9" fill="currentColor"/>
+        <circle cx="11" cy="4.5" r="0.9" fill="currentColor"/>
+        <rect x="4.5" y="6.5" width="7" height="5" rx="1" fill="currentColor" opacity=".25"/>
+      </svg>
+      <!-- Shown in carousel mode → clicking goes to grid -->
+      <svg class="ti-grid" width="30" height="30" viewBox="0 0 15 15" fill="currentColor">
+        <rect x="0" y="0" width="6.5" height="6.5" rx="1.2"/>
+        <rect x="8.5" y="0" width="6.5" height="6.5" rx="1.2"/>
+        <rect x="0" y="8.5" width="6.5" height="6.5" rx="1.2"/>
+        <rect x="8.5" y="8.5" width="6.5" height="6.5" rx="1.2"/>
+      </svg>
+    </button>
+
+    <!-- Right column — stacked panels (grid + carousel) -->
     <div class="hero-right">
 
-      <div class="carousel-wrap">
-        <!-- Cards viewport -->
-        <div class="carousel-viewport" id="carousel-viewport">
-          <div class="carousel-track" id="carousel-track">
-            <!-- Injected by JS -->
-          </div>
+      <!-- Panel A: 2×2 grid (default) -->
+      <div class="hero-view-panel" id="hero-grid-panel">
+        <div class="hero-grid" id="hero-grid">
+          <!-- Injected by JS — first 4 articles -->
         </div>
+      </div>
 
-        <!-- Controls row -->
-        <div class="carousel-controls">
-          <div class="carousel-dots" id="carousel-dots"></div>
-          <div class="carousel-arrows">
-            <button class="arrow-btn" id="prev-btn" aria-label="Previous">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-            <button class="arrow-btn" id="next-btn" aria-label="Next">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
+      <!-- Panel B: single-card carousel (initially hidden) -->
+      <div class="hero-view-panel view-hidden" id="hero-carousel-panel">
+        <div class="carousel-wrap">
+          <div class="carousel-viewport" id="carousel-viewport">
+            <div class="carousel-track" id="carousel-track">
+              <!-- Injected by JS -->
+            </div>
+          </div>
+          <div class="carousel-controls">
+            <div class="carousel-dots" id="carousel-dots"></div>
+            <div class="carousel-arrows">
+              <button class="arrow-btn" id="prev-btn" aria-label="Previous">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <button class="arrow-btn" id="next-btn" aria-label="Next">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -499,6 +525,6 @@
     <p>Could not load articles. <button id="retry-btn">Retry</button></p>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=10"></script>
 </body>
 </html>

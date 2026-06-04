@@ -86,14 +86,11 @@ const AUTO_INTERVAL = 5000;
 let filteredArticles = [...ARTICLES];
 let displayedCount = 0;
 let activeTag = 'All';
+let viewMode = 'grid';
 let currentSlide = 0;
 let autoTimer = null;
 
 // ── DOM refs ──────────────────────────────────────────────
-const track       = document.getElementById('carousel-track');
-const dotsWrap    = document.getElementById('carousel-dots');
-const prevBtn     = document.getElementById('prev-btn');
-const nextBtn     = document.getElementById('next-btn');
 const articleList = document.getElementById('article-list');
 const tagRow      = document.getElementById('tag-row');
 const loadMoreWrap= document.getElementById('load-more-wrap');
@@ -118,106 +115,38 @@ function timeAgo(iso) {
   return `${m} months ago`;
 }
 
-const LOGO_SM_SVG = `<img src="kt-logo.png" alt="Kweku Tech" style="width:100%;height:100%;object-fit:contain;" />`;
-
-// ── Build carousel cards ──────────────────────────────────
-function buildCarousel() {
-  track.innerHTML = ARTICLES.map(a => {
+// ── Hero grid (2×2) ──────────────────────────────────────
+function buildHeroGrid() {
+  const grid = document.getElementById('hero-grid');
+  grid.innerHTML = ARTICLES.slice(0, 4).map(a => {
     const imgHtml = a.image
       ? `<img src="${esc(a.image)}" alt="${esc(a.title)}" loading="lazy" />`
-      : `<div class="kcard-no-img">
-           <svg width="32" height="32" viewBox="0 0 32 32" fill="none" opacity=".12">
-             <rect x="2" y="5" width="28" height="22" rx="3" stroke="#3dd68c" stroke-width="1.5"/>
-             <circle cx="11" cy="13" r="3" stroke="#3dd68c" stroke-width="1.5"/>
-             <path d="M2 22l8-6 6 4.5 5-3.5 9 7" stroke="#3dd68c" stroke-width="1.5" stroke-linejoin="round"/>
-           </svg>
-         </div>`;
-
+      : `<div class="hcard-no-img"></div>`;
     return `
-      <a class="kcard" href="${esc(a.url)}" target="_blank" rel="noopener">
-        <div class="kcard-header">
-          <div class="kcard-handle">
-            <div class="kcard-dots">
-              <div class="kcard-dot"></div>
-              <div class="kcard-dot"></div>
-              <div class="kcard-dot"></div>
+      <a class="hcard" href="${esc(a.url)}" target="_blank" rel="noopener">
+        <div class="hcard-img">${imgHtml}</div>
+        <div class="hcard-body">
+          <span class="hcard-cat">${esc(a.category)}</span>
+          <h3 class="hcard-title">${esc(a.title)}</h3>
+        </div>
+        <div class="hcard-footer">
+          <div class="hcard-author">
+            <div class="hcard-avatar"><img src="kt-logo.png" alt="Kweku Tech" /></div>
+            <div>
+              <span class="hcard-name">Kweku Tech</span>
+              <span class="hcard-date">${timeAgo(a.date)}</span>
             </div>
-            <span>kwekutech</span>
           </div>
-          <div class="kcard-logo-sm">${LOGO_SM_SVG}</div>
-        </div>
-        <div class="kcard-body">
-          <span class="kcard-category">${esc(a.category)}</span>
-          <h2 class="kcard-title">${esc(a.title)}</h2>
-          <p class="kcard-excerpt">${esc(a.excerpt)}</p>
-        </div>
-        <div class="kcard-img-wrap">${imgHtml}</div>
-        <div class="kcard-footer">
-          <div class="kcard-likes">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+          <div class="hcard-likes">
+            <svg width="12" height="12" viewBox="0 0 13 13" fill="none">
               <path d="M6.5 11C6.5 11 1.5 7.5 1.5 4.5C1.5 3.1 2.6 2 4 2C5.1 2 5.9 2.6 6.5 3.4C7.1 2.6 7.9 2 9 2C10.4 2 11.5 3.1 11.5 4.5C11.5 7.5 6.5 11 6.5 11Z" stroke="currentColor" stroke-width="1.2"/>
             </svg>
-            ${a.likes} likes
+            ${a.likes}
           </div>
-          <span class="kcard-readmore">Read article →</span>
         </div>
       </a>`;
   }).join('');
-
-  buildDots();
-  goTo(0, false);
 }
-
-function buildDots() {
-  dotsWrap.innerHTML = ARTICLES.map((_, i) =>
-    `<button class="cdot ${i === 0 ? 'active' : ''}" data-i="${i}" aria-label="Slide ${i+1}"></button>`
-  ).join('');
-
-  dotsWrap.querySelectorAll('.cdot').forEach(btn => {
-    btn.addEventListener('click', () => { goTo(parseInt(btn.dataset.i)); resetTimer(); });
-  });
-}
-
-function goTo(idx, animate = true) {
-  currentSlide = ((idx % ARTICLES.length) + ARTICLES.length) % ARTICLES.length;
-  console.log('[carousel] goTo — currentSlide:', currentSlide, '| viewport.offsetWidth:', viewport.offsetWidth);
-  track.style.transition = animate ? 'transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)' : 'none';
-  track.style.transform = `translateX(-${currentSlide * viewport.offsetWidth}px)`;
-  dotsWrap.querySelectorAll('.cdot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
-}
-
-function next() { goTo(currentSlide + 1); }
-function prev() { goTo(currentSlide - 1); }
-
-function startTimer() {
-  autoTimer = setInterval(next, AUTO_INTERVAL);
-}
-
-function resetTimer() {
-  clearInterval(autoTimer);
-  startTimer();
-}
-
-prevBtn.addEventListener('click', () => { prev(); resetTimer(); });
-nextBtn.addEventListener('click', () => { next(); resetTimer(); });
-
-// Pause on hover
-const viewport = document.getElementById('carousel-viewport');
-viewport.addEventListener('mouseenter', () => clearInterval(autoTimer));
-viewport.addEventListener('mouseleave', startTimer);
-
-// Touch swipe support
-let touchStartX = 0;
-viewport.addEventListener('touchstart', e => {
-  touchStartX = e.touches[0].clientX;
-}, { passive: true });
-viewport.addEventListener('touchend', e => {
-  const dx = e.changedTouches[0].clientX - touchStartX;
-  if (Math.abs(dx) > 40) {
-    dx < 0 ? next() : prev();
-    resetTimer();
-  }
-}, { passive: true });
 
 // ── Tag filters ───────────────────────────────────────────
 function buildTagFilters() {
@@ -289,6 +218,101 @@ function appendRows(n) {
   loadMoreWrap.style.display = displayedCount < filteredArticles.length ? 'block' : 'none';
 }
 
+// ── Carousel (hero panel B) ───────────────────────────────
+function buildCarousel() {
+  const track = document.getElementById('carousel-track');
+  track.innerHTML = ARTICLES.map(a => {
+    const imgHtml = a.image
+      ? `<img src="${esc(a.image)}" alt="${esc(a.title)}" loading="lazy" />`
+      : `<div class="kcard-no-img"></div>`;
+    return `
+      <a class="kcard" href="${esc(a.url)}" target="_blank" rel="noopener">
+        <div class="kcard-img">${imgHtml}</div>
+        <div class="kcard-body">
+          <span class="kcard-cat">${esc(a.category)}</span>
+          <h2 class="kcard-title">${esc(a.title)}</h2>
+          <p class="kcard-excerpt">${esc(a.excerpt)}</p>
+        </div>
+        <div class="kcard-footer">
+          <div class="kcard-author">
+            <div class="kcard-avatar"><img src="kt-logo.png" alt="Kweku Tech" /></div>
+            <div>
+              <span class="kcard-name">Kweku Tech</span>
+              <span class="kcard-date">${timeAgo(a.date)}</span>
+            </div>
+          </div>
+          <div class="kcard-likes">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <path d="M6.5 11C6.5 11 1.5 7.5 1.5 4.5C1.5 3.1 2.6 2 4 2C5.1 2 5.9 2.6 6.5 3.4C7.1 2.6 7.9 2 9 2C10.4 2 11.5 3.1 11.5 4.5C11.5 7.5 6.5 11 6.5 11Z" stroke="currentColor" stroke-width="1.2"/>
+            </svg>
+            ${a.likes}
+          </div>
+        </div>
+      </a>`;
+  }).join('');
+
+  const dotsWrap = document.getElementById('carousel-dots');
+  dotsWrap.innerHTML = ARTICLES.map((_, i) =>
+    `<button class="cdot ${i === 0 ? 'active' : ''}" data-i="${i}" aria-label="Slide ${i+1}"></button>`
+  ).join('');
+  dotsWrap.querySelectorAll('.cdot').forEach(btn =>
+    btn.addEventListener('click', () => { goTo(parseInt(btn.dataset.i)); resetTimer(); })
+  );
+
+  document.getElementById('prev-btn').addEventListener('click', () => { goTo(currentSlide - 1); resetTimer(); });
+  document.getElementById('next-btn').addEventListener('click', () => { goTo(currentSlide + 1); resetTimer(); });
+
+  const vp = document.getElementById('carousel-viewport');
+  vp.addEventListener('mouseenter', () => clearInterval(autoTimer));
+  vp.addEventListener('mouseleave', () => { if (viewMode === 'carousel') startTimer(); });
+
+  let txStart = 0;
+  vp.addEventListener('touchstart', e => { txStart = e.touches[0].clientX; }, { passive: true });
+  vp.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - txStart;
+    if (Math.abs(dx) > 40) { dx < 0 ? goTo(currentSlide + 1) : goTo(currentSlide - 1); resetTimer(); }
+  }, { passive: true });
+}
+
+function goTo(idx, animate = true) {
+  const n = ARTICLES.length;
+  currentSlide = ((idx % n) + n) % n;
+  const vp = document.getElementById('carousel-viewport');
+  vp.scrollTo({ left: currentSlide * vp.offsetWidth, behavior: animate ? 'smooth' : 'instant' });
+  document.querySelectorAll('.cdot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+}
+
+function startTimer() { autoTimer = setInterval(() => goTo(currentSlide + 1), AUTO_INTERVAL); }
+function resetTimer()  { clearInterval(autoTimer); if (viewMode === 'carousel') startTimer(); }
+
+// ── View toggle ───────────────────────────────────────────
+function toggleView() {
+  const btn        = document.getElementById('view-toggle');
+  const gridPanel  = document.getElementById('hero-grid-panel');
+  const carPanel   = document.getElementById('hero-carousel-panel');
+
+  // Spin the button
+  btn.classList.remove('is-spinning');
+  void btn.offsetWidth;
+  btn.classList.add('is-spinning');
+
+  viewMode = viewMode === 'grid' ? 'carousel' : 'grid';
+  btn.dataset.mode = viewMode;
+  btn.setAttribute('aria-label',
+    viewMode === 'grid' ? 'Switch to carousel view' : 'Switch to grid view'
+  );
+
+  if (viewMode === 'carousel') {
+    gridPanel.classList.add('view-hidden');
+    carPanel.classList.remove('view-hidden');
+    requestAnimationFrame(() => { goTo(currentSlide, false); startTimer(); });
+  } else {
+    carPanel.classList.add('view-hidden');
+    gridPanel.classList.remove('view-hidden');
+    clearInterval(autoTimer);
+  }
+}
+
 // ── Podcasts ──────────────────────────────────────────────
 function buildPodcasts() {
   const podViewport = document.getElementById('podcast-viewport');
@@ -300,39 +324,39 @@ function buildPodcasts() {
   podNext.addEventListener('click', () => podViewport.scrollBy({ left:  cardWidth(), behavior: 'smooth' }));
 }
 
-// ── Init ──────────────────────────────────────────────────
+// ── Init ─────────────────────────────────────────────────
+// Script is at bottom of <body> so DOM is ready — no DOMContentLoaded needed
 function init() {
+  buildHeroGrid();
   buildCarousel();
-  startTimer();
   buildTagFilters();
   filterAndRender();
   buildPodcasts();
 
+  document.getElementById('view-toggle').addEventListener('click', toggleView);
+
+  // CTA scrolls to article list
+  seeAllBtn.addEventListener('click', () => {
+    listScene.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  loadMoreBtn.addEventListener('click', () => appendRows(PAGE_SIZE));
+
+  // Newsletter subscribe animation
+  const nlForm = document.getElementById('newsletter-form');
+  const nlBtn  = document.getElementById('newsletter-btn');
+  const nlText = nlBtn.querySelector('.newsletter-btn-text');
+  nlForm.addEventListener('submit', e => {
+    e.preventDefault();
+    if (nlBtn.classList.contains('subscribed')) return;
+    nlBtn.classList.add('subscribed');
+    nlText.textContent = 'Subscribed ✓';
+    nlBtn.disabled = true;
+  });
+
   // Hide loading veil
   loadingVeil.classList.add('done');
-  setTimeout(() => loadingVeil.style.display = 'none', 350);
+  setTimeout(() => { loadingVeil.style.display = 'none'; }, 350);
 }
 
-// CTA scrolls to article list
-seeAllBtn.addEventListener('click', () => {
-  listScene.scrollIntoView({ behavior: 'smooth' });
-});
-
-loadMoreBtn.addEventListener('click', () => appendRows(PAGE_SIZE));
-
-// ── Newsletter ────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  const form    = document.getElementById('newsletter-form');
-  const btn     = document.getElementById('newsletter-btn');
-  const btnText = btn.querySelector('.newsletter-btn-text');
-
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    if (btn.classList.contains('subscribed')) return;
-    btn.classList.add('subscribed');
-    btnText.textContent = 'Subscribed ✓';
-    btn.disabled = true;
-  });
-});
-
-document.addEventListener('DOMContentLoaded', init);
+init();
