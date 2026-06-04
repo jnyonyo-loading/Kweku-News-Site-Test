@@ -320,4 +320,19 @@ seeAllBtn.addEventListener('click', () => {
 
 loadMoreBtn.addEventListener('click', () => appendRows(PAGE_SIZE));
 
+// ── Newsletter ────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const form    = document.getElementById('newsletter-form');
+  const btn     = document.getElementById('newsletter-btn');
+  const btnText = btn.querySelector('.newsletter-btn-text');
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    if (btn.classList.contains('subscribed')) return;
+    btn.classList.add('subscribed');
+    btnText.textContent = 'Subscribed ✓';
+    btn.disabled = true;
+  });
+});
+
 document.addEventListener('DOMContentLoaded', init);
