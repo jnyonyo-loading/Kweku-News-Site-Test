@@ -88,6 +88,7 @@ let displayedCount = 0;
 let activeTag = 'All';
 let currentSlide = 0;
 let autoTimer = null;
+let isMultiView = false;
 
 // ── DOM refs ──────────────────────────────────────────────
 const track       = document.getElementById('carousel-track');
@@ -101,6 +102,7 @@ const loadMoreBtn = document.getElementById('load-more-btn');
 const loadingVeil = document.getElementById('loading-veil');
 const seeAllBtn   = document.getElementById('see-all-btn');
 const listScene   = document.getElementById('list-scene');
+const hero        = document.getElementById('hero');
 
 // ── Helpers ───────────────────────────────────────────────
 function esc(s) {
@@ -153,11 +155,18 @@ function buildCarousel() {
         </div>
         <div class="kcard-img-wrap">${imgHtml}</div>
         <div class="kcard-footer">
+          <div class="kcard-author-row">
+            <div class="kcard-avatar-sm"><img src="kt-logo.png" alt="Kweku Tech" /></div>
+            <div>
+              <span class="kcard-author-name">Kweku Tech</span>
+              <span class="kcard-author-date">${timeAgo(a.date)}</span>
+            </div>
+          </div>
           <div class="kcard-likes">
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
               <path d="M6.5 11C6.5 11 1.5 7.5 1.5 4.5C1.5 3.1 2.6 2 4 2C5.1 2 5.9 2.6 6.5 3.4C7.1 2.6 7.9 2 9 2C10.4 2 11.5 3.1 11.5 4.5C11.5 7.5 6.5 11 6.5 11Z" stroke="currentColor" stroke-width="1.2"/>
             </svg>
-            ${a.likes} likes
+            <span class="kcard-likes-count">${a.likes}</span><span class="kcard-likes-text"> likes</span>
           </div>
           <span class="kcard-readmore">Read article →</span>
         </div>
@@ -183,6 +192,7 @@ function buildDots() {
 }
 
 function sizeCarouselCards() {
+  if (isMultiView) return;
   const w = viewport.getBoundingClientRect().width;
   if (!w) return;
   track.querySelectorAll('.kcard').forEach(card => {
@@ -193,6 +203,7 @@ function sizeCarouselCards() {
 }
 
 function goTo(idx, animate = true) {
+  if (isMultiView) return;
   currentSlide = ((idx % ARTICLES.length) + ARTICLES.length) % ARTICLES.length;
   const slideWidth = viewport.getBoundingClientRect().width;
   track.style.transition = animate ? 'transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)' : 'none';
@@ -302,6 +313,44 @@ function appendRows(n) {
   displayedCount += slice.length;
   loadMoreWrap.style.display = displayedCount < filteredArticles.length ? 'block' : 'none';
 }
+
+// ── View toggle ───────────────────────────────────────────
+function toggleView() {
+  const fab = document.getElementById('view-toggle');
+  if (fab.disabled) return;
+  fab.disabled = true;
+
+  // Spin the button
+  fab.classList.add('spinning');
+  setTimeout(() => fab.classList.remove('spinning'), 500);
+
+  // Fade out the carousel area
+  viewport.classList.add('fading');
+
+  // After fade-out, swap layout, then fade back in
+  setTimeout(() => {
+    isMultiView = !isMultiView;
+    hero.classList.toggle('multiview', isMultiView);
+
+    if (isMultiView) {
+      clearInterval(autoTimer);
+      track.style.transition = 'none';
+      track.style.transform  = 'translateX(0)';
+    } else {
+      sizeCarouselCards();
+      goTo(currentSlide, false);
+      startTimer();
+    }
+
+    // Two rAFs ensure the layout change is painted before fading in
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      viewport.classList.remove('fading');
+      fab.disabled = false;
+    }));
+  }, 180);
+}
+
+document.getElementById('view-toggle').addEventListener('click', toggleView);
 
 // ── Podcasts ──────────────────────────────────────────────
 function buildPodcasts() {

@@ -36,6 +36,7 @@ body {
   grid-template-columns: 1fr 1fr;
   min-height: 100dvh;
   border-bottom: 1px solid var(--border);
+  position: relative;
 }
 
 /* ── Hero left ───────────────────────────────────────── */
@@ -240,6 +241,52 @@ body {
   color: var(--green);
 }
 
+/* ── View toggle FAB ─────────────────────────────────── */
+@keyframes btn-swivel {
+  0%   { transform: translate(-50%, -50%) rotate(0deg)   scale(1);    }
+  50%  { transform: translate(-50%, -50%) rotate(180deg) scale(0.82); }
+  100% { transform: translate(-50%, -50%) rotate(360deg) scale(1);    }
+}
+
+@keyframes card-enter {
+  from { opacity: 0; transform: translateY(10px) scale(0.93); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+.carousel-toggle-fab {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-sub);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  z-index: 10;
+}
+
+.carousel-toggle-fab:hover {
+  background: #1e1e1c;
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.carousel-toggle-fab.spinning {
+  animation: btn-swivel 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.carousel-toggle-fab .icon-single { display: none; }
+.carousel-toggle-fab .icon-grid   { display: block; }
+
+.hero.multiview .carousel-toggle-fab .icon-grid   { display: none; }
+.hero.multiview .carousel-toggle-fab .icon-single { display: block; }
+
 /* ── Hero right ──────────────────────────────────────── */
 .hero-right {
   display: flex;
@@ -263,7 +310,10 @@ body {
   width: 100%;
   overflow: hidden;
   border-radius: var(--r);
+  transition: opacity 0.18s ease;
 }
+
+.carousel-viewport.fading { opacity: 0; }
 
 .carousel-track {
   display: flex;
@@ -423,6 +473,44 @@ body {
   letter-spacing: 0.2px;
 }
 
+/* Author row — hidden in single view, revealed in multiview */
+.kcard-author-row {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.kcard-avatar-sm {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.kcard-avatar-sm img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.kcard-author-name {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.kcard-author-date {
+  display: block;
+  font-size: 10px;
+  color: var(--text-mute);
+}
+
 /* ── Carousel controls ───────────────────────────────── */
 .carousel-controls {
   display: flex;
@@ -478,6 +566,63 @@ body {
   background: var(--surface-2);
   border-color: var(--green);
   color: var(--green);
+}
+
+/* ── Multiview mode ──────────────────────────────────── */
+.hero.multiview .carousel-wrap {
+  max-width: none;
+  padding-left: 20px; /* gap between FAB and grid left edge */
+}
+
+.hero.multiview .carousel-viewport {
+  overflow: visible;
+}
+
+.hero.multiview .carousel-track {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  transform: none !important;
+  transition: none !important;
+  width: auto;
+}
+
+.hero.multiview .kcard {
+  width: auto !important;
+  flex-basis: auto !important;
+}
+
+/* Only show first 4 cards in 2×2 grid */
+.hero.multiview .kcard:nth-child(n+5) {
+  display: none;
+}
+
+/* Staggered entrance animation for each card */
+.hero.multiview .kcard:nth-child(1) { animation: card-enter 0.3s 0.04s both ease-out; }
+.hero.multiview .kcard:nth-child(2) { animation: card-enter 0.3s 0.11s both ease-out; }
+.hero.multiview .kcard:nth-child(3) { animation: card-enter 0.3s 0.18s both ease-out; }
+.hero.multiview .kcard:nth-child(4) { animation: card-enter 0.3s 0.25s both ease-out; }
+
+/* Compact card layout in multiview */
+.hero.multiview .kcard-header    { display: none; }
+.hero.multiview .kcard-excerpt   { display: none; }
+.hero.multiview .kcard-title     { font-size: 13px; -webkit-line-clamp: 3; }
+.hero.multiview .kcard-body      { padding: 14px 14px 10px; }
+.hero.multiview .kcard-footer    { padding: 10px 14px; }
+.hero.multiview .kcard-author-row { display: flex; }
+.hero.multiview .kcard-readmore  { display: none; }
+.hero.multiview .kcard-likes-text { display: none; }
+
+/* Fixed image height keeps 2×2 grid the same total height as the single-view card */
+.hero.multiview .kcard-img-wrap {
+  aspect-ratio: unset;
+  height: 130px;
+  flex-shrink: 0;
+}
+
+.hero.multiview .carousel-dots {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 /* ── Article list section ────────────────────────────── */
@@ -1018,6 +1163,9 @@ body {
 
 /* ── Tablet: ≤ 900px ─────────────────────────────────── */
 @media (max-width: 900px) {
+
+  /* Hide multiview toggle — single-column layout, no divider to float on */
+  .carousel-toggle-fab { display: none; }
 
   /* Hero: collapse to single column, both halves capped to full width */
   .hero {
