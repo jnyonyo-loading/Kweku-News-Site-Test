@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="referrer" content="no-referrer" />
-  <title>Kweku Tech — Articles</title>
+  <title>Kweku News — African Tech Coverage</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -12,511 +11,198 @@
 </head>
 <body>
 
-  <!-- ══════════════════ HERO ══════════════════ -->
-  <section class="hero" id="hero">
+  <!-- ══ HEADER ══════════════════════════════════════════ -->
+  <header class="site-header">
+    <div class="header-inner">
 
-    <!-- Left column -->
-    <div class="hero-left">
+      <a class="site-logo" href="#">
+        <div class="logo-badge" aria-hidden="true">KN</div>
+        <span class="logo-wordmark">kweku<strong>news</strong></span>
+      </a>
 
-      <!-- Logo wordmark -->
-      <div class="wordmark">
-        <div class="logo-icon" aria-hidden="true">
-          <img src="kt-logo.png" alt="Kweku Tech" />
-        </div>
-        <div class="wordmark-text">
-          <span class="wordmark-kweku">Kweku</span>
-          <span class="wordmark-tech">Tech News</span>
-        </div>
-      </div>
+      <nav class="header-nav" aria-label="Primary">
+        <button class="nav-quicklinks">Quick Links</button>
+        <span class="nav-pipe" aria-hidden="true">|</span>
+        <a class="nav-link" href="#">2026 Predictions</a>
+        <a class="nav-link" href="#">The Builders' List</a>
+        <a class="nav-link" href="#">Startups</a>
+        <a class="nav-link" href="#">FinTech</a>
+        <a class="nav-link" href="#">AI</a>
+      </nav>
 
-      <!-- Hero copy -->
-      <div class="hero-copy">
-        <h1 class="hero-headline">
-          Stories &amp; Insights<br>from Africa's<br>
-          <span class="headline-green">Tech Frontier</span>
-        </h1>
-        <p class="hero-desc">
-          From in-depth interviews with founders to recaps of the continent's biggest conferences,
-          this is your go-to space for tech news, event highlights, and creative perspectives.
-        </p>
-
-        <!-- Social proof logos -->
-        <div class="hero-logos">
-
-          <!-- Group 1: companies with written stories -->
-          <div class="hero-logos-group">
-            <span class="hero-logos-label">Companies we write about</span>
-            <div class="hero-logos-row">
-
-              <!-- Google -->
-              <div class="hero-logo-chip">
-                <svg width="15" height="15" viewBox="0 0 48 48">
-                  <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/>
-                  <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                  <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                  <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-3.59-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                </svg>
-                <span>Google</span>
-              </div>
-
-              <!-- Hubtel -->
-              <div class="hero-logo-chip">
-                <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
-                  <polygon points="0,0 10,8 0,8"  fill="#1b2d5f"/>
-                  <polygon points="0,8 10,8 0,16" fill="#3cb9b0"/>
-                  <polygon points="20,0 10,8 20,8" fill="#f5922f"/>
-                  <polygon points="20,8 10,8 20,16" fill="#e05f3e"/>
-                </svg>
-                <span>hubtel</span>
-              </div>
-
-            </div>
-          </div>
-
-          <!-- Group 2: community partners -->
-          <div class="hero-logos-group">
-            <span class="hero-logos-label">Partners</span>
-            <div class="hero-logos-row">
-
-              <div class="hero-logo-chip"><span class="chip-devcongress">dev:congress{};</span></div>
-
-              <div class="hero-logo-chip">
-                <svg width="11" height="13" viewBox="0 0 11 13" fill="none">
-                  <path d="M5.5 0L11 3.25V9.75L5.5 13L0 9.75V3.25L5.5 0Z" fill="#1a3a5c"/>
-                  <path d="M5.5 3L8 4.5V7.5L5.5 9L3 7.5V4.5L5.5 3Z" fill="#fff" opacity=".6"/>
-                </svg>
-                <span>AyaHQ</span>
-              </div>
-
-              <div class="hero-logo-chip chip-bpd"><span>Black Python Devs</span></div>
-
-              <div class="hero-logo-chip"><span class="chip-amid">AMID</span><span class="chip-amid-sub">&nbsp;Africa</span></div>
-
-              <div class="hero-logo-chip"><span class="chip-bba">BBA</span><span class="chip-sub">&nbsp;Ghana</span></div>
-
-              <div class="hero-logo-chip"><span class="chip-defi">DeFi</span><span class="chip-sub">&nbsp;Africa</span></div>
-
-              <div class="hero-logo-chip"><span class="chip-div">&lt;D∀V/&gt;</span></div>
-
-            </div>
-          </div>
-
-          <!-- Follow Us -->
-          <div class="hero-logos-group">
-            <span class="hero-logos-label">Follow us</span>
-            <div class="hero-logos-row">
-
-              <a class="follow-chip" href="https://x.com/kwekutech" target="_blank" rel="noopener">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.259 5.632L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
-                <span class="follow-name">X</span>
-                <span class="follow-count">4K</span>
-              </a>
-
-              <a class="follow-chip" href="https://www.linkedin.com/company/kwekutech?originalSubdomain=gh" target="_blank" rel="noopener">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="#0A66C2">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-                <span class="follow-name">LinkedIn</span>
-                <span class="follow-count">5.8K</span>
-              </a>
-
-              <a class="follow-chip" href="https://www.youtube.com/@KwekuTech" target="_blank" rel="noopener">
-                <svg width="16" height="12" viewBox="0 0 24 17" fill="none">
-                  <path d="M23.495 2.8A3.016 3.016 0 0 0 21.38.67C19.505 0 12 0 12 0S4.495 0 2.62.67A3.016 3.016 0 0 0 .505 2.8C0 4.685 0 8.5 0 8.5s0 3.815.505 5.7A3.016 3.016 0 0 0 2.62 16.33C4.495 17 12 17 12 17s7.505 0 9.38-.67a3.016 3.016 0 0 0 2.115-2.13C24 12.315 24 8.5 24 8.5s0-3.815-.505-5.7z" fill="#FF0000"/>
-                  <path d="M9.545 12.09L15.818 8.5 9.545 4.91v7.18z" fill="white"/>
-                </svg>
-                <span class="follow-name">YouTube</span>
-                <span class="follow-count">4K</span>
-              </a>
-
-              <a class="follow-chip" href="https://www.instagram.com/kweku_tech/" target="_blank" rel="noopener">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                  <defs>
-                    <linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%">
-                      <stop offset="0%" stop-color="#f09433"/>
-                      <stop offset="25%" stop-color="#e6683c"/>
-                      <stop offset="50%" stop-color="#dc2743"/>
-                      <stop offset="75%" stop-color="#cc2366"/>
-                      <stop offset="100%" stop-color="#bc1888"/>
-                    </linearGradient>
-                  </defs>
-                  <rect x="2" y="2" width="20" height="20" rx="5" stroke="url(#ig-grad)" stroke-width="2"/>
-                  <circle cx="12" cy="12" r="5" stroke="url(#ig-grad)" stroke-width="2"/>
-                  <circle cx="17.5" cy="6.5" r="1.2" fill="#dc2743"/>
-                </svg>
-                <span class="follow-name">Instagram</span>
-                <span class="follow-count">1.8K</span>
-              </a>
-
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- CTA -->
-      <button class="hero-cta" id="see-all-btn">
-        <span class="cta-desktop">See all articles &amp; podcasts</span>
-        <span class="cta-mobile">Read articles below</span>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M7 2L7 12M7 12L3 8M7 12L11 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-
-    </div>
-
-    <!-- View toggle FAB — floats on the divider between columns -->
-    <button class="carousel-toggle-fab" id="view-toggle" aria-label="Toggle carousel view">
-      <!-- Monitor icon: shown in single-view mode (represents current carousel state) -->
-      <svg class="icon-grid" width="30" height="30" viewBox="0 0 24 24" fill="none">
-        <rect x="2" y="2" width="20" height="20" rx="4.5" stroke="currentColor" stroke-width="1.7"/>
-        <rect x="5" y="5" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/>
-        <circle cx="8.5"  cy="18.5" r="1.5" fill="currentColor"/>
-        <circle cx="12"   cy="18.5" r="1.5" fill="currentColor"/>
-        <circle cx="15.5" cy="18.5" r="1.5" fill="currentColor"/>
-      </svg>
-      <!-- Grid icon: shown in multiview mode (represents current grid state) -->
-      <svg class="icon-single" width="28" height="28" viewBox="0 0 22 22" fill="none">
-        <rect x="1"    y="1"    width="8.5" height="8.5" rx="1.8" stroke="currentColor" stroke-width="1.5"/>
-        <rect x="12.5" y="1"    width="8.5" height="8.5" rx="1.8" stroke="currentColor" stroke-width="1.5"/>
-        <rect x="1"    y="12.5" width="8.5" height="8.5" rx="1.8" stroke="currentColor" stroke-width="1.5"/>
-        <rect x="12.5" y="12.5" width="8.5" height="8.5" rx="1.8" stroke="currentColor" stroke-width="1.5"/>
-      </svg>
-    </button>
-
-    <!-- Right column — carousel -->
-    <div class="hero-right">
-
-      <div class="carousel-wrap">
-        <!-- Cards viewport -->
-        <div class="carousel-viewport" id="carousel-viewport">
-          <div class="carousel-track" id="carousel-track">
-            <!-- Injected by JS -->
-          </div>
-        </div>
-
-        <!-- Controls row -->
-        <div class="carousel-controls">
-          <div class="carousel-dots" id="carousel-dots"></div>
-          <div class="carousel-arrows">
-            <button class="arrow-btn" id="prev-btn" aria-label="Previous">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-            <button class="arrow-btn" id="next-btn" aria-label="Next">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-          </div>
-        </div>
+      <div class="header-actions">
+        <button class="header-btn" aria-label="Search">
+          <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <span>Search</span>
+        </button>
+        <button class="header-btn" aria-label="Open menu">
+          <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <span>Menu</span>
+        </button>
       </div>
 
     </div>
-  </section>
+  </header>
 
-  <!-- ══════════════════ MOBILE LOGOS (hidden on desktop) ══════════════════ -->
-  <div class="mobile-logos-block">
-    <div class="container">
-
-      <div class="hero-logos-group">
-        <span class="hero-logos-label">Companies we write about</span>
-        <div class="hero-logos-row">
-          <div class="hero-logo-chip">
-            <svg width="15" height="15" viewBox="0 0 48 48">
-              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/>
-              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-3.59-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-            </svg>
-            <span>Google</span>
-          </div>
-          <div class="hero-logo-chip">
-            <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
-              <polygon points="0,0 10,8 0,8"  fill="#1b2d5f"/>
-              <polygon points="0,8 10,8 0,16" fill="#3cb9b0"/>
-              <polygon points="20,0 10,8 20,8" fill="#f5922f"/>
-              <polygon points="20,8 10,8 20,16" fill="#e05f3e"/>
-            </svg>
-            <span>hubtel</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="hero-logos-group">
-        <span class="hero-logos-label">Partners</span>
-        <div class="hero-logos-row">
-          <div class="hero-logo-chip"><span class="chip-devcongress">dev:congress{};</span></div>
-          <div class="hero-logo-chip">
-            <svg width="11" height="13" viewBox="0 0 11 13" fill="none">
-              <path d="M5.5 0L11 3.25V9.75L5.5 13L0 9.75V3.25L5.5 0Z" fill="#1a3a5c"/>
-              <path d="M5.5 3L8 4.5V7.5L5.5 9L3 7.5V4.5L5.5 3Z" fill="#fff" opacity=".6"/>
-            </svg>
-            <span>AyaHQ</span>
-          </div>
-          <div class="hero-logo-chip chip-bpd"><span>Black Python Devs</span></div>
-          <div class="hero-logo-chip"><span class="chip-amid">AMID</span><span class="chip-amid-sub">&nbsp;Africa</span></div>
-          <div class="hero-logo-chip"><span class="chip-bba">BBA</span><span class="chip-sub">&nbsp;Ghana</span></div>
-          <div class="hero-logo-chip"><span class="chip-defi">DeFi</span><span class="chip-sub">&nbsp;Africa</span></div>
-          <div class="hero-logo-chip"><span class="chip-div">&lt;D∀V/&gt;</span></div>
-        </div>
-      </div>
-
-      <div class="hero-logos-group">
-        <span class="hero-logos-label">Follow us</span>
-        <div class="hero-logos-row">
-
-          <a class="follow-chip" href="https://x.com/kwekutech" target="_blank" rel="noopener">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.259 5.632L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-            <span class="follow-name">X</span>
-            <span class="follow-count">4K</span>
-          </a>
-
-          <a class="follow-chip" href="https://www.linkedin.com/company/kwekutech?originalSubdomain=gh" target="_blank" rel="noopener">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#0A66C2">
-              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-            </svg>
-            <span class="follow-name">LinkedIn</span>
-            <span class="follow-count">5.8K</span>
-          </a>
-
-          <a class="follow-chip" href="https://www.youtube.com/@KwekuTech" target="_blank" rel="noopener">
-            <svg width="16" height="12" viewBox="0 0 24 17" fill="none">
-              <path d="M23.495 2.8A3.016 3.016 0 0 0 21.38.67C19.505 0 12 0 12 0S4.495 0 2.62.67A3.016 3.016 0 0 0 .505 2.8C0 4.685 0 8.5 0 8.5s0 3.815.505 5.7A3.016 3.016 0 0 0 2.62 16.33C4.495 17 12 17 12 17s7.505 0 9.38-.67a3.016 3.016 0 0 0 2.115-2.13C24 12.315 24 8.5 24 8.5s0-3.815-.505-5.7z" fill="#FF0000"/>
-              <path d="M9.545 12.09L15.818 8.5 9.545 4.91v7.18z" fill="white"/>
-            </svg>
-            <span class="follow-name">YouTube</span>
-            <span class="follow-count">4K</span>
-          </a>
-
-          <a class="follow-chip" href="https://www.instagram.com/kweku_tech/" target="_blank" rel="noopener">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-              <defs>
-                <linearGradient id="ig-grad-m" x1="0%" y1="100%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#f09433"/>
-                  <stop offset="50%" stop-color="#dc2743"/>
-                  <stop offset="100%" stop-color="#bc1888"/>
-                </linearGradient>
-              </defs>
-              <rect x="2" y="2" width="20" height="20" rx="5" stroke="url(#ig-grad-m)" stroke-width="2"/>
-              <circle cx="12" cy="12" r="5" stroke="url(#ig-grad-m)" stroke-width="2"/>
-              <circle cx="17.5" cy="6.5" r="1.2" fill="#dc2743"/>
-            </svg>
-            <span class="follow-name">Instagram</span>
-            <span class="follow-count">1.8K</span>
-          </a>
-
-        </div>
-      </div>
-
-    </div>
+  <!-- ══ LOADING ══════════════════════════════════════════ -->
+  <div id="page-loading" class="page-loading">
+    <div class="dot-wave"><div></div><div></div><div></div></div>
   </div>
 
-  <!-- ══════════════════ ARTICLE LIST ══════════════════ -->
-  <section class="list-scene" id="list-scene">
-    <div class="container">
+  <!-- ══ ERROR ═════════════════════════════════════════════ -->
+  <div id="page-error" class="page-error hidden">
+    <p>Could not load articles.</p>
+    <button id="retry-btn">Retry</button>
+  </div>
 
-      <div class="list-header">
-        <h2 class="list-title">Latest Articles</h2>
-      </div>
+  <!-- ══ MAIN CONTENT (populated by JS) ════════════════════ -->
+  <main id="site-main" class="hidden">
 
-      <div class="tag-row" id="tag-row"></div>
-
-      <div class="article-list" id="article-list"></div>
-
-      <div id="load-more-wrap" class="load-more-wrap" style="display:none">
-        <button id="load-more-btn" class="load-more-btn">Load more articles</button>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ══════════════════ PODCASTS ══════════════════ -->
-  <section class="podcast-scene">
-    <div class="container">
-
-      <div class="podcast-header">
-        <div>
-          <p class="podcast-eyebrow">Watch &amp; Listen</p>
-          <h2 class="podcast-title">Podcasts</h2>
-        </div>
-        <div class="podcast-arrows">
-          <button class="arrow-btn" id="pod-prev-btn" aria-label="Previous episode">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <button class="arrow-btn" id="pod-next-btn" aria-label="Next episode">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
+    <!-- Hero: 1 large featured + 3 stacked side -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-grid">
+          <div id="hero-featured" class="hero-featured-col"></div>
+          <div id="hero-side" class="hero-side-col"></div>
         </div>
       </div>
+    </section>
 
-      <div class="podcast-viewport" id="podcast-viewport">
-        <div class="podcast-track" id="podcast-track">
+    <!-- 3-col article grid + Newsletter sidebar -->
+    <section class="secondary-section">
+      <div class="container">
+        <div class="secondary-layout">
 
-          <!-- Card 1 -->
-          <a class="pod-card" href="https://www.youtube.com/watch?v=BiwSY-GYF4g" target="_blank" rel="noopener">
-            <div class="pod-thumb">
-              <img src="https://i.ytimg.com/vi/BiwSY-GYF4g/hqdefault.jpg" alt="He left $500K to build Africa's PayPal" referrerpolicy="no-referrer" crossorigin="anonymous" />
-              <div class="pod-play">
-                <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
-                  <circle cx="26" cy="26" r="26" fill="rgba(0,0,0,0.6)"/>
-                  <path d="M22 18L36 26L22 34V18Z" fill="white"/>
-                </svg>
+          <div id="secondary-grid" class="secondary-articles"></div>
+
+          <aside class="newsletter-sidebar">
+            <h3 class="nl-heading">Get the best African tech newsletters in your inbox</h3>
+            <form class="nl-form" id="nl-form" novalidate>
+              <input type="text"  class="nl-input"  placeholder="Enter your first name"  autocomplete="given-name" />
+              <input type="email" class="nl-input"  placeholder="Email address"           autocomplete="email" />
+              <select class="nl-select">
+                <option value="">Select your country</option>
+                <option>Ghana</option><option>Nigeria</option><option>Kenya</option>
+                <option>South Africa</option><option>Other</option>
+              </select>
+              <select class="nl-select">
+                <option value="">Select your gender</option>
+                <option>Male</option><option>Female</option><option>Prefer not to say</option>
+              </select>
+              <div class="nl-checks">
+                <label class="nl-check"><input type="checkbox" checked /> <span>KT Daily</span></label>
+                <label class="nl-check"><input type="checkbox" checked /> <span>Next Wave</span></label>
+                <label class="nl-check"><input type="checkbox" checked /> <span>Entering Tech</span></label>
               </div>
-            </div>
-            <p class="pod-title">He left $500K to build Africa's PayPal | CEO of Payd</p>
-          </a>
-
-          <!-- Card 2 -->
-          <a class="pod-card" href="https://www.youtube.com/watch?v=EHxg91FymMQ" target="_blank" rel="noopener">
-            <div class="pod-thumb">
-              <img src="https://i.ytimg.com/vi/EHxg91FymMQ/hqdefault.jpg" alt="The Sophisticated Software Engineer" referrerpolicy="no-referrer" crossorigin="anonymous" />
-              <div class="pod-play">
-                <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
-                  <circle cx="26" cy="26" r="26" fill="rgba(0,0,0,0.6)"/>
-                  <path d="M22 18L36 26L22 34V18Z" fill="white"/>
-                </svg>
-              </div>
-            </div>
-            <p class="pod-title">The Sophisticated Software Engineer: The Truth About Modern Coding</p>
-          </a>
-
-          <!-- Card 3 -->
-          <a class="pod-card" href="https://www.youtube.com/watch?v=tgrbD2skW54" target="_blank" rel="noopener">
-            <div class="pod-thumb">
-              <img src="https://i.ytimg.com/vi/tgrbD2skW54/hqdefault.jpg" alt="Student by Day, Dev Lead by Night" referrerpolicy="no-referrer" crossorigin="anonymous" />
-              <div class="pod-play">
-                <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
-                  <circle cx="26" cy="26" r="26" fill="rgba(0,0,0,0.6)"/>
-                  <path d="M22 18L36 26L22 34V18Z" fill="white"/>
-                </svg>
-              </div>
-            </div>
-            <p class="pod-title">Student by Day, Dev Lead by Night | The Story of Sui Ghana DevLead</p>
-          </a>
+              <button type="submit" class="nl-submit" id="nl-submit">SUBSCRIBE</button>
+            </form>
+          </aside>
 
         </div>
       </div>
+    </section>
 
-    </div>
-  </section>
-
-  <!-- ══════════════════ NEWSLETTER ══════════════════ -->
-  <section class="newsletter-scene">
-    <div class="container">
-      <div class="newsletter-inner">
-        <p class="newsletter-eyebrow">Stay in the loop</p>
-        <h2 class="newsletter-heading">Get all latest updates<br>from Kwekutech</h2>
-        <form class="newsletter-form" id="newsletter-form" novalidate>
-          <input
-            type="email"
-            class="newsletter-input"
-            id="newsletter-input"
-            placeholder="Enter your email address"
-            autocomplete="email"
-          />
-          <button type="submit" class="newsletter-btn" id="newsletter-btn">
-            <span class="newsletter-btn-text">Subscribe</span>
-          </button>
-        </form>
+    <!-- Press Room -->
+    <section class="press-room-section">
+      <div class="container">
+        <h2 class="section-heading red">Press Room</h2>
+        <div id="press-room-grid" class="grid-3"></div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ══════════════════ FOOTER ══════════════════ -->
+    <!-- Category Section (populated dynamically) -->
+    <section class="cat-section" id="cat-section">
+      <div class="container">
+        <h2 class="cat-section-label" id="cat-section-label"></h2>
+        <div id="cat-featured-row" class="cat-featured-row"></div>
+        <div id="cat-small-grid" class="grid-3"></div>
+        <div class="more-link-wrap">
+          <a href="#" class="more-link" id="cat-more-link"></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest Articles -->
+    <section class="latest-section">
+      <div class="container">
+        <h2 class="latest-label">LATEST ARTICLES</h2>
+        <div id="latest-grid" class="grid-3"></div>
+        <div id="load-more-wrap" class="load-more-wrap hidden">
+          <button id="load-more-btn" class="load-more-btn">Load more articles</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══ FOOTER ════════════════════════════════════════════ -->
   <footer class="site-footer">
     <div class="container">
-
       <div class="footer-inner">
 
-        <!-- Brand -->
         <div class="footer-brand">
-          <div class="footer-logo-wrap">
-            <img src="kt-logo.png" alt="Kweku Tech" class="footer-logo-img" />
-            <span class="footer-logo-name">Kweku Tech</span>
+          <a href="#" class="footer-logo-link">
+            <div class="logo-badge logo-badge-sm" aria-hidden="true">KN</div>
+            <span class="footer-logo-name">kweku<strong>news</strong></span>
+          </a>
+          <p class="footer-tagline">Covering African tech, startups,<br>fintech, and innovation.</p>
+          <div class="footer-social">
+            <a href="https://x.com/kwekutech" target="_blank" rel="noopener" aria-label="X/Twitter">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.259 5.632L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="https://www.linkedin.com/company/kwekutech" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/kweku_tech/" target="_blank" rel="noopener" aria-label="Instagram">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            </a>
           </div>
-          <p class="footer-tagline">Shining the Spotlight on<br>Africa's Tech Stories</p>
         </div>
 
-        <!-- Nav columns -->
         <nav class="footer-nav">
-
           <div class="footer-col">
-            <h4 class="footer-col-title">Company</h4>
+            <h4>Company</h4>
             <ul>
               <li><a href="#">About Us</a></li>
-              <li><a href="#">Services</a></li>
-              <li><a href="#">Portfolio</a></li>
-              <li><a href="#">Impact</a></li>
+              <li><a href="#">Advertise</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Contact</a></li>
             </ul>
           </div>
-
           <div class="footer-col">
-            <h4 class="footer-col-title">Legal</h4>
+            <h4>Editorial</h4>
             <ul>
-              <li><a href="#">Code of Conduct</a></li>
+              <li><a href="#">Newsletter</a></li>
+              <li><a href="#">Podcast</a></li>
+              <li><a href="#">Events</a></li>
+              <li><a href="#">Press Room</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <ul>
               <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Live Event Terms</a></li>
+              <li><a href="#">Terms of Use</a></li>
               <li><a href="#">Cookie Policy</a></li>
             </ul>
           </div>
-
           <div class="footer-col">
-            <h4 class="footer-col-title">Resources</h4>
+            <h4>Connect</h4>
             <ul>
-              <li><a href="#">Podcast</a></li>
-              <li><a href="#">Brand Kit</a></li>
+              <li><a href="#">Twitter / X</a></li>
+              <li><a href="#">LinkedIn</a></li>
+              <li><a href="#">Instagram</a></li>
+              <li><a href="#">YouTube</a></li>
             </ul>
           </div>
-
-          <div class="footer-col">
-            <h4 class="footer-col-title">Connect</h4>
-            <ul>
-              <li><a href="#">Contact Us</a></li>
-              <li><a href="#">Partnerships</a></li>
-            </ul>
-          </div>
-
         </nav>
-      </div>
 
+      </div>
       <div class="footer-bottom">
-        <p>&copy; 2025 Kweku Tech. All rights reserved.</p>
+        <p>&copy; 2026 Kweku News. All rights reserved.</p>
       </div>
-
     </div>
   </footer>
-
-  <!-- ══════════════════ ARTICLE DETAIL ══════════════════ -->
-  <div id="article-view" class="article-view hidden">
-    <div class="container art-container">
-      <button class="art-back" id="back-btn">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        Back
-      </button>
-      <article id="art-content"></article>
-    </div>
-  </div>
-
-  <!-- ══════════════════ STATES ══════════════════ -->
-  <div id="loading-veil" class="loading-veil">
-    <div class="spinner"></div>
-  </div>
-
-  <div id="error-veil" class="error-veil hidden">
-    <p>Could not load articles. <button id="retry-btn">Retry</button></p>
-  </div>
 
   <script src="app.js"></script>
 </body>
