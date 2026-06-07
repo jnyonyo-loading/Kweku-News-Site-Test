@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Books — The Daily</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --w: clamp(300px, 92vw, 600px);
+      --cyl-h: 88px;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #ccc6b8;
+      background-image:
+        repeating-linear-gradient(0deg,   transparent, transparent 32px, rgba(0,0,0,0.016) 32px, rgba(0,0,0,0.016) 33px),
+        repeating-linear-gradient(90deg,  transparent, transparent 32px, rgba(0,0,0,0.01)  32px, rgba(0,0,0,0.01)  33px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: 'Times New Roman', Times, serif;
+      overflow-x: hidden;
+      padding-bottom: 5rem;
+    }
+
+    /* ── Nav ─────────────────────────────── */
+    .style-nav {
+      width: 100%;
+      background: #1e1a12;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+
+    .style-nav a {
+      color: rgba(210,195,155,0.35);
+      text-decoration: none;
+      font-size: 0.56rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      padding: 0.65rem 0.9rem;
+      border-right: 1px solid rgba(210,195,155,0.07);
+      transition: color 0.2s;
+    }
+
+    .style-nav a:last-child  { border-right: none; }
+    .style-nav a:hover       { color: rgba(210,195,155,0.8); }
+    .style-nav a.active      { color: #d2c39b; }
+
+    /* ── Page header ─────────────────────── */
+    .page-header {
+      margin: 2.2rem 0 2rem;
+      font-size: 0.57rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(40,30,14,0.32);
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: 700;
+    }
+
+    /* ── Scene container ─────────────────── */
+    .scene {
+      width: var(--w);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    /* ════════════════════════════════════════
+       CYLINDER
+    ════════════════════════════════════════ */
+    .cylinder {
+      width: var(--w);
+      height: var(--cyl-h);
+      position: relative;
+      z-index: 30;
+      cursor: pointer;
+      animation: cyl-bob 4s ease-in-out infinite;
+      transition: filter 0.5s ease;
+      flex-shrink: 0;
+    }
+
+    .scene.open .cylinder {
+      animation-play-state: paused;
+      filter: drop-shadow(0 20px 44px rgba(0,0,0,0.32));
+    }
+
+    @keyframes cyl-bob {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-8px); }
+    }
+
+    /* Main oval surface */
+    .cyl-body {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      overflow: hidden;
+      background:
+        /* Top specular highlight */
+        linear-gradient(to bottom,
+          rgba(255,255,255,0.72)  0%,
+          rgba(255,255,255,0.24) 13%,
+          rgba(255,255,255,0.04) 30%,
+          rgba(0,0,0,0)          50%,
+          rgba(0,0,0,0.10)       70%,
+          rgba(0,0,0,0.30)       100%
+        ),
+        /* Newsprint lines running around the cylinder */
+        repeating-linear-gradient(
+          to bottom,
+          transparent 0px, transparent 3.5px,
+          rgba(0,0,0,0.032) 3.5px, rgba(0,0,0,0.032) 4.5px
+        );
+      background-color: #ece4cf;
+      box-shadow:
+        inset 0 5px 14px rgba(255,255,255,0.6),
+        inset 0 -5px 14px rgba(0,0,0,0.18);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    /* Faint column-text rows behind the masthead */
+    .cyl-body::before {
+      content: '';
+      position: absolute;
+      inset: 20% 8%;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px, transparent 6px,
+        rgba(0,0,0,0.04) 6px, rgba(0,0,0,0.04) 7px
+      );
+      z-index: 1;
+    }
+
+    .cyl-masthead {
+      font-size: clamp(1.1rem, 4vw, 1.7rem);
+      font-weight: 900;
+      letter-spacing: 0.22em;
+      color: rgba(24,14,4,0.72);
+      text-transform: uppercase;
+      position: relative;
+      z-index: 2;
+      line-height: 1;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.12);
+    }
+
+    .cyl-ticker {
+      font-size: clamp(0.4rem, 1.2vw, 0.52rem);
+      color: rgba(24,14,4,0.3);
+      letter-spacing: 0.12em;
+      position: relative;
+      z-index: 2;
+      white-space: nowrap;
+      overflow: hidden;
+      max-width: 82%;
+      text-overflow: ellipsis;
+    }
+
+    /* Outer drop-shadow ring (no fill) */
+    .cyl-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      box-shadow:
+        0 16px 48px rgba(0,0,0,0.28),
+        0  5px 14px rgba(0,0,0,0.16);
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    /* Left end-cap — paper cross-section */
+    .cyl-cap {
+      position: absolute;
+      top: 7%;
+      height: 86%;
+      width: clamp(14px, 3.5vw, 20px);
+      border-radius: 50%;
+      z-index: 5;
+    }
+
+    .cyl-cap.left {
+      left: -5px;
+      background: radial-gradient(ellipse at 38% 32%,
+        rgba(255,255,255,0.62)  0%,
+        rgba(218,206,182,0.9)  44%,
+        rgba(148,134,108,0.92) 100%
+      );
+      box-shadow: inset -2px 0 5px rgba(0,0,0,0.18);
+    }
+
+    .cyl-cap.right {
+      right: -5px;
+      background: radial-gradient(ellipse at 38% 32%,
+        rgba(255,255,255,0.50)  0%,
+        rgba(202,190,166,0.88) 44%,
+        rgba(130,116,92,0.9)   100%
+      );
+      box-shadow: inset -2px 0 5px rgba(0,0,0,0.14);
+    }
+
+    /* Ground shadow beneath cylinder */
+    .cyl-shadow {
+      position: absolute;
+      bottom: -14px;
+      left: 8%;
+      width: 84%;
+      height: 18px;
+      background: rgba(24,14,4,0.24);
+      filter: blur(12px);
+      border-radius: 50%;
+      z-index: -1;
+      transition: opacity 0.6s ease, width 0.6s ease;
+    }
+
+    .scene.open .cyl-shadow { opacity: 0.5; width: 74%; left: 13%; }
+
+    /* ════════════════════════════════════════
+       NEWSPAPER PAGE
+    ════════════════════════════════════════ */
+    .newspaper {
+      width: var(--w);
+      position: relative;
+      z-index: 15;
+
+      /* Top of newspaper starts at cylinder centre-line */
+      margin-top: calc(var(--cyl-h) * -0.5);
+
+      /* Starts folded back: top anchored, bottom tilts away */
+      transform-origin: top center;
+      transform: perspective(1000px) rotateX(-7deg);
+
+      /* Newsprint base — uneven yellowed off-white */
+      background-color: #ede8d4;
+      background-image:
+        /* Yellowing pocket top-left */
+        radial-gradient(ellipse 65% 45% at 12% 18%, rgba(188,158,78,0.16) 0%, transparent 65%),
+        /* Yellowing pocket bottom-right */
+        radial-gradient(ellipse 55% 55% at 88% 82%, rgba(175,145,68,0.12) 0%, transparent 60%),
+        /* Central toning */
+        radial-gradient(ellipse 80% 50% at 50% 50%, rgba(162,132,62,0.08) 0%, transparent 72%),
+        /* Edge foxing / darkening */
+        radial-gradient(ellipse 115% 108% at 50% 50%, transparent 52%, rgba(140,114,52,0.1) 100%);
+
+      border: 1px solid #b8a878;
+
+      /* Clip-path and box-shadow driven entirely by JS */
+      clip-path: path('M 0,0 L 0,0 Z');
+      box-shadow: none;
+      will-change: clip-path, transform;
+    }
+
+    /* ── Canvas grain overlay (filled by JS) ── */
+    .np-grain {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 50;
+      opacity: 0.55;
+      mix-blend-mode: multiply;
+    }
+
+    /* ── Curl shadow at leading edge (moved by JS) ── */
+    .curl-edge {
+      position: absolute;
+      left: -2%;
+      right: -2%;
+      height: 24px;
+      background: linear-gradient(to bottom,
+        rgba(38,22,6,0.22)  0%,
+        rgba(38,22,6,0.07) 55%,
+        transparent 100%
+      );
+      border-radius: 0 0 50% 50% / 0 0 16px 16px;
+      pointer-events: none;
+      z-index: 20;
+      opacity: 0;
+      top: 0;
+    }
+
+    /* ── Newspaper inner padding ──────────── */
+    .np-inner {
+      padding: clamp(10px, 3vw, 26px);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── Masthead ─────────────────────────── */
+    .np-head {
+      text-align: center;
+      padding-bottom: 5px;
+    }
+
+    .np-name {
+      font-size: clamp(2rem, 9vw, 3.8rem);
+      font-weight: 900;
+      color: #0a0804;
+      line-height: 1;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      /* Ink bleed on masthead */
+      text-shadow:
+        0.4px  0.4px 0.8px rgba(0,0,0,0.28),
+       -0.4px  0    0.8px rgba(0,0,0,0.14),
+        0      0.5px 1.2px rgba(0,0,0,0.18);
+    }
+
+    .np-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: clamp(0.42rem, 1.1vw, 0.56rem);
+      color: #2a220e;
+      letter-spacing: 0.08em;
+      padding: 4px 0 3px;
+      border-top: 1.5px solid #2a220e;
+      border-bottom: 1.5px solid #2a220e;
+      margin-top: 4px;
+    }
+
+    hr.np-rule {
+      border: none;
+      border-top: 1px solid #2a220e;
+      margin: 5px 0;
+    }
+
+    hr.np-rule.double {
+      border-top: 3px double #0a0804;
+      margin: 6px 0;
+    }
+
+    /* ── Headline block ───────────────────── */
+    .np-hed {
+      font-size: clamp(1.1rem, 5vw, 1.9rem);
+      font-weight: 900;
+      line-height: 1.08;
+      color: #0a0804;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      margin: 8px 0 4px;
+      /* Strong ink bleed for large print */
+      text-shadow:
+        0.6px  0.6px 1px rgba(0,0,0,0.3),
+       -0.3px  0    1px rgba(0,0,0,0.15);
+    }
+
+    .np-dek {
+      font-size: clamp(0.58rem, 1.6vw, 0.78rem);
+      text-align: center;
+      color: #2a220e;
+      font-style: italic;
+      line-height: 1.45;
+      margin-bottom: 4px;
+    }
+
+    .np-byline {
+      font-size: clamp(0.44rem, 1.1vw, 0.56rem);
+      text-align: center;
+      color: #4a3e26;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-family: Helvetica, Arial, sans-serif;
+      margin-bottom: 6px;
+    }
+
+    /* ── Three-column body ────────────────── */
+    .np-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .np-col {
+      padding: 0 clamp(5px, 1.4vw, 11px);
+      border-right: 1px solid #bba870;
+      font-size: clamp(0.47rem, 1.15vw, 0.6rem);
+      line-height: 1.68;
+      color: #1a1408;
+      /* Ink bleed on body text */
+      text-shadow: 0 0 0.5px rgba(0,0,0,0.28);
+    }
+
+    .np-col:first-child { padding-left: 0; }
+    .np-col:last-child  { padding-right: 0; border-right: none; }
+
+    .np-col-hed {
+      font-size: clamp(0.52rem, 1.3vw, 0.68rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #0a0804;
+      border-bottom: 1px solid #2a220e;
+      padding-bottom: 3px;
+      margin-bottom: 4px;
+      text-shadow: 0 0 0.6px rgba(0,0,0,0.25);
+    }
+
+    /* Drop cap on first paragraph of col 1 */
+    .np-col:first-child p:first-of-type::first-letter {
+      float: left;
+      font-size: 3em;
+      line-height: 0.76;
+      margin: 0 3px 0 0;
+      font-weight: 900;
+      color: #0a0804;
+    }
+
+    .np-col p + p { margin-top: 5px; }
+
+    .np-pull {
+      font-size: clamp(0.6rem, 1.5vw, 0.76rem);
+      font-style: italic;
+      color: #0a0804;
+      border-top: 2px solid #0a0804;
+      border-bottom: 2px solid #0a0804;
+      padding: 5px 2px;
+      margin: 7px 0;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .np-photo {
+      width: 100%;
+      height: clamp(44px, 13vw, 82px);
+      background:
+        linear-gradient(135deg, #c4b898 25%, #b8aa84 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(0.4rem, 1vw, 0.5rem);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(30,20,6,0.45);
+      font-family: Helvetica, Arial, sans-serif;
+      margin-bottom: 5px;
+      border: 1px solid #b8a878;
+    }
+
+    /* Footer line at bottom of page */
+    .np-footer {
+      text-align: center;
+      font-size: clamp(0.4rem, 1vw, 0.5rem);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #7a6a44;
+      font-family: Helvetica, Arial, sans-serif;
+      padding: 6px 0 2px;
+      border-top: 1px solid #bba870;
+    }
+
+    /* ════════════════════════════════════════
+       HOVER HINT
+    ════════════════════════════════════════ */
+    .hover-hint {
+      margin-top: 1.8rem;
+      font-size: 0.57rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(40,30,14,0.3);
+      font-family: Helvetica, Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      transition: opacity 0.4s;
+    }
+
+    .hover-hint::before, .hover-hint::after {
+      content: '';
+      width: 38px;
+      height: 1px;
+      background: rgba(40,30,14,0.18);
+    }
+
+    .scene.open ~ .hover-hint { opacity: 0; pointer-events: none; }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <nav class="style-nav">
+    <a href="books.html">Original</a>
+    <a href="books-dark.html">Dark</a>
+    <a href="books-brutal.html">Brutal</a>
+    <a href="books-retro.html">Retro</a>
+    <a href="books-swiss.html">Swiss</a>
+    <a href="books-scroll.html" class="active">Scroll</a>
+  </nav>
+
+  <p class="page-header">Books by Kweku Tech &nbsp;&mdash;&nbsp; June 2026</p>
+
+  <!-- ══ SCENE ══ -->
+  <div class="scene" id="scene">
+
+    <!-- ── Cylinder ── -->
+    <div class="cylinder" id="cylinder">
+      <div class="cyl-cap cap left"></div>
+      <div class="cyl-cap cap right"></div>
+      <div class="cyl-body">
+        <div class="cyl-masthead">The Daily News</div>
+        <div class="cyl-ticker">News +++ Information +++ Breaking +++ Analysis +++ World +++ News +++</div>
+      </div>
+      <div class="cyl-ring"></div>
+      <div class="cyl-shadow"></div>
+    </div>
+
+    <!-- ── Newspaper page ── -->
+    <div class="newspaper" id="newspaper">
+
+      <!-- Grain canvas (filled by JS) -->
+      <canvas class="np-grain" id="grainCanvas"></canvas>
+
+      <!-- Curl-edge shadow (positioned by JS) -->
+      <div class="curl-edge" id="curlEdge"></div>
+
+      <div class="np-inner">
+
+        <!-- Masthead -->
+        <div class="np-head">
+          <div class="np-name">The Daily</div>
+          <div class="np-meta-row">
+            <span>Vol. XLVII &middot; No. 23</span>
+            <span>Friday, June 6, 2026</span>
+            <span>kwekutech.com &middot; $1.50</span>
+          </div>
+        </div>
+
+        <hr class="np-rule double">
+
+        <!-- Main headline -->
+        <div class="np-hed">AI Reshapes the Global Economy<br>as Nations Race to Regulate</div>
+        <div class="np-dek">Experts warn of sweeping disruption to labour markets as governments convene emergency summit in Brussels</div>
+        <div class="np-byline">By Kweku Mensah, Technology Editor &nbsp;&bull;&nbsp; June 6, 2026</div>
+
+        <hr class="np-rule">
+
+        <!-- Three columns -->
+        <div class="np-cols">
+
+          <div class="np-col">
+            <div class="np-col-hed">Markets &amp; Labour</div>
+            <p>Across the globe's largest financial centres, artificial intelligence is rewriting the rules of production at a pace that has left economists and policymakers scrambling to keep pace with events on the ground.</p>
+            <p>The International Monetary Fund, in a report released Thursday, estimated that up to 40 percent of jobs in advanced economies are exposed to AI automation — a figure that rises sharply in knowledge-intensive sectors.</p>
+            <div class="np-pull">"The question is no longer if machines will think, but whether we are ready."</div>
+            <p>Central banks have begun stress-testing their projections against rapid displacement scenarios, while labour unions in fourteen countries have called for immediate legislative protection for workers.</p>
+          </div>
+
+          <div class="np-col">
+            <div class="np-photo">[ Photograph ]</div>
+            <div class="np-col-hed">Government Response</div>
+            <p>Governments from Washington to Berlin have pledged accelerated regulatory frameworks, but critics argue that such promises arrive years behind the deployment curve of the technology they seek to govern.</p>
+            <p>The EU's AI Act, which came into partial effect earlier this year, has been described by industry leaders as well-intentioned but ill-equipped for the speed of frontier model deployment.</p>
+            <p>In the United States, a bipartisan Senate committee concluded a six-month inquiry this week producing 180 pages of findings but no binding legislation, with members acknowledging the difficulty of writing law for a technology that evolves faster than the legislative calendar.</p>
+          </div>
+
+          <div class="np-col">
+            <div class="np-col-hed">Hundreds Face Displacement</div>
+            <p>On factory floors from Shenzhen to Stuttgart, the human cost is already measurable. Three major automotive manufacturers announced this week a combined reduction of 48,000 positions, with AI-driven assembly cited in each case.</p>
+            <p>Workers in the knowledge economy, once insulated from automation, now find themselves on uncertain ground. Paralegals, junior analysts, medical coders, and writers have each seen platform adoption accelerate dramatically over the past eighteen months.</p>
+            <div class="np-pull">"We built careers on skills that took years. Now the same output arrives in seconds."</div>
+            <p>The Brussels summit, opening Monday, is expected to produce a communiqué committing states to coordinate on AI employment policy, though substantive enforcement mechanisms remain elusive.</p>
+          </div>
+
+        </div>
+
+        <div class="np-footer">
+          Continued on Page A4 &nbsp;&bull;&nbsp; Science B1 &nbsp;&bull;&nbsp; Culture C3 &nbsp;&bull;&nbsp; Opinion D2
+        </div>
+
+      </div><!-- /np-inner -->
+    </div><!-- /newspaper -->
+
+  </div><!-- /scene -->
+
+  <p class="hover-hint" id="hint">Hover to unroll</p>
+
+  <script>
+  (function () {
+
+    /* ── 1. Paper grain texture ──────────────────────────────── */
+    function buildGrain(canvas) {
+      const W = canvas.width  = canvas.offsetWidth  || 600;
+      const H = canvas.height = canvas.offsetHeight || 900;
+      const ctx = canvas.getContext('2d');
+
+      const img = ctx.createImageData(W, H);
+      const d   = img.data;
+
+      for (let i = 0; i < d.length; i += 4) {
+        const g = Math.random();
+
+        if (g < 0.004) {
+          /* Dark ink speck */
+          const v = 20 + Math.random() * 40;
+          d[i]   = v;      // R
+          d[i+1] = v - 10; // G
+          d[i+2] = v - 20; // B
+          d[i+3] = 80 + Math.random() * 80;
+        } else if (g < 0.012) {
+          /* Light fibre */
+          const v = 220 + Math.random() * 35;
+          d[i]   = v;
+          d[i+1] = v - 8;
+          d[i+2] = v - 20;
+          d[i+3] = 30 + Math.random() * 40;
+        } else {
+          /* Neutral grain */
+          const n = (Math.random() - 0.5) * 28;
+          d[i]   = 180 + n; // R — warm
+          d[i+1] = 168 + n; // G
+          d[i+2] = 140 + n; // B — slightly cool offset
+          d[i+3] = 12 + Math.random() * 14;
+        }
+      }
+
+      ctx.putImageData(img, 0, 0);
+    }
+
+    /* ── 2. Element references ───────────────────────────────── */
+    const scene     = document.getElementById('scene');
+    const newspaper = document.getElementById('newspaper');
+    const curlEdge  = document.getElementById('curlEdge');
+    const grainCvs  = document.getElementById('grainCanvas');
+
+    /* Build grain once the newspaper has a real size */
+    requestAnimationFrame(() => buildGrain(grainCvs));
+    window.addEventListener('resize', () => buildGrain(grainCvs));
+
+    /* ── 3. Animation state ──────────────────────────────────── */
+    let progress   = 0;    // 0 = fully rolled, 1 = fully flat
+    let target     = 0;
+    let startTime  = null;
+    let startProg  = 0;
+    let raf        = null;
+    const DUR_OPEN = 1800; // ms
+    const DUR_SHUT = 650;  // ms
+
+    /* Easing functions */
+    function easeOutBack(t) {
+      const c1 = 1.6, c3 = c1 + 1;
+      return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+    }
+
+    function easeInCubic(t) { return t * t * t; }
+
+    /* ── 4. Core render: clip-path + tilt + curl edge ────────── */
+    function render(prog) {
+      const W = newspaper.offsetWidth  || 600;
+      const H = newspaper.offsetHeight || 900;
+      const y = prog * H;
+
+      /* ── Clip path with curved leading edge ──
+         Cubic bezier arc: sides at y, centre dips by arcDepth.
+         Arc peaks at ~45% unroll (most curvature mid-reveal),
+         then flattens to zero by full extension. */
+      const maxArc  = Math.min(W * 0.055, 30); // max dip in px (~30)
+      const arcMult = Math.sin(prog * Math.PI); // 0→1→0
+      const arcDepth = arcMult * maxArc;
+
+      let pathStr;
+      if (prog <= 0.002) {
+        pathStr = `M 0,0 L 0,0 Z`;
+      } else if (prog >= 0.998) {
+        pathStr = `M 0,0 L ${W},0 L ${W},${H} L 0,${H} Z`;
+      } else {
+        /* Rectangle down to y, then cubic-bezier arc curving downward at centre */
+        pathStr =
+          `M 0,0 ` +
+          `L ${W},0 ` +
+          `L ${W},${y} ` +
+          `C ${W * 0.72},${y + arcDepth} ${W * 0.28},${y + arcDepth} 0,${y} ` +
+          `Z`;
+      }
+
+      newspaper.style.clipPath = `path('${pathStr}')`;
+
+      /* ── Slight 3D tilt: folds away at 0, lays flat at 1 ── */
+      const tilt = (1 - prog) * 9; // 9° when rolled, 0° when flat
+      newspaper.style.transform =
+        `perspective(1100px) rotateX(-${tilt}deg)`;
+
+      /* ── Box shadow grows as paper lays flat ── */
+      const shAlpha = prog * 0.22;
+      const shBlur  = 20 + prog * 40;
+      const shDrop  = 4 + prog * 20;
+      newspaper.style.boxShadow =
+        `0 ${shDrop}px ${shBlur}px rgba(0,0,0,${shAlpha.toFixed(3)})`;
+
+      /* ── Curl edge ── */
+      if (prog > 0.02 && prog < 0.98) {
+        /* Fade in quickly, fade out at the end */
+        const fade = Math.min(prog * 8, 1) * Math.min((1 - prog) * 8, 1);
+        curlEdge.style.top     = `${y - 18}px`;
+        curlEdge.style.opacity = (fade * arcMult).toFixed(3);
+      } else {
+        curlEdge.style.opacity = '0';
+      }
+    }
+
+    /* ── 5. Animation loop ───────────────────────────────────── */
+    function tick(ts) {
+      if (!startTime) startTime = ts;
+      const elapsed  = ts - startTime;
+      const dur      = target > startProg ? DUR_OPEN : DUR_SHUT;
+      const rawT     = Math.min(elapsed / dur, 1);
+      const easedT   = target > startProg ? easeOutBack(rawT) : easeInCubic(rawT);
+
+      progress = startProg + (target - startProg) * easedT;
+      render(progress);
+
+      if (rawT < 1) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        progress = target;
+        render(progress);
+        raf = null;
+      }
+    }
+
+    function animateTo(t) {
+      startProg = progress;
+      startTime = null;
+      target    = t;
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(tick);
+    }
+
+    /* ── 6. Events ───────────────────────────────────────────── */
+    scene.addEventListener('mouseenter', () => animateTo(1));
+    scene.addEventListener('mouseleave', () => animateTo(0));
+
+    /* Touch toggle for mobile */
+    let touchOpen = false;
+    scene.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      touchOpen = !touchOpen;
+      animateTo(touchOpen ? 1 : 0);
+    }, { passive: false });
+
+    /* Initial render (fully hidden) */
+    render(0);
+
+  })();
+  </script>
+
+</body>
+</html>

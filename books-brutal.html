@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Books — Brutal</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: #ffffff;
+      font-family: 'Arial Black', 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    /* ── Style Nav ─────────────────────── */
+    .style-nav {
+      width: 100%;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .style-nav a {
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-family: 'Arial', sans-serif;
+      padding: 0.75rem 1.2rem;
+      border-right: 1px solid rgba(255,255,255,0.1);
+      transition: color 0.15s, background 0.15s;
+      font-weight: 700;
+    }
+
+    .style-nav a:last-child { border-right: none; }
+    .style-nav a:hover { color: #fff; background: #222; }
+    .style-nav a.active { color: #fff; background: #ff2200; }
+
+    /* ── Masthead ──────────────────────── */
+    .masthead {
+      width: 100%;
+      max-width: 1100px;
+      padding: 0 2rem;
+    }
+
+    .masthead-rule {
+      width: 100%;
+      height: 6px;
+      background: #000;
+    }
+
+    .masthead-rule.thin { height: 2px; margin-top: 3px; }
+
+    .masthead-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: #000;
+      text-transform: uppercase;
+      font-family: 'Arial', sans-serif;
+      font-weight: 700;
+      padding: 0.35rem 0;
+      border-bottom: 2px solid #000;
+    }
+
+    .masthead-title {
+      font-size: clamp(4rem, 12vw, 9rem);
+      font-weight: 900;
+      color: #000;
+      line-height: 0.9;
+      text-transform: uppercase;
+      letter-spacing: -0.04em;
+      padding: 0.15rem 0;
+    }
+
+    .masthead-sub {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #fff;
+      background: #000;
+      padding: 0.35rem 0.5rem;
+      display: inline-block;
+      margin-bottom: 0;
+    }
+
+    /* ── Section label ─────────────────── */
+    .section-label {
+      width: 100%;
+      max-width: 1100px;
+      padding: 1.5rem 2rem 0.6rem;
+      font-size: 0.65rem;
+      font-weight: 900;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #fff;
+      background: #000;
+    }
+
+    /* ── Shelf ─────────────────────────── */
+    .shelf-wrap {
+      width: 100%;
+      max-width: 1100px;
+      padding: 0 2rem;
+      background: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .magazine-row {
+      display: flex;
+      gap: 0;
+      align-items: flex-end;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 2rem 0 0;
+    }
+
+    .shelf-plank {
+      width: 100%;
+      height: 12px;
+      background: #000;
+      margin-top: 0;
+    }
+
+    /* ── Magazine card ─────────────────── */
+    .magazine {
+      position: relative;
+      width: 175px;
+      height: 245px;
+      perspective: 1200px;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin: 0 6px;
+    }
+
+    .mag-inside {
+      position: absolute;
+      inset: 0;
+      background: #fff;
+      border: 3px solid #000;
+      overflow: hidden;
+      z-index: 1;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .inside-kicker {
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--accent);
+      font-weight: 900;
+      padding: 2px 5px;
+      display: inline-block;
+      align-self: flex-start;
+    }
+
+    .inside-headline {
+      font-size: 0.88rem;
+      font-weight: 900;
+      line-height: 1.1;
+      color: #000;
+      text-transform: uppercase;
+    }
+
+    .inside-rule { height: 3px; background: #000; }
+
+    .inside-pull {
+      font-size: 0.55rem;
+      font-style: italic;
+      color: #333;
+      font-family: Georgia, serif;
+      border-left: 4px solid var(--accent);
+      padding-left: 5px;
+      line-height: 1.4;
+    }
+
+    .inside-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+      flex: 1;
+    }
+
+    .inside-col {
+      font-size: 0.44rem;
+      line-height: 1.6;
+      color: #333;
+      overflow: hidden;
+      font-family: Georgia, serif;
+      font-weight: normal;
+    }
+
+    .inside-img {
+      height: 45px;
+      background: var(--accent);
+      margin-bottom: 4px;
+      opacity: 0.2;
+    }
+
+    /* Cover */
+    .mag-cover {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      transform-origin: left center;
+      transform-style: preserve-3d;
+      transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+                  box-shadow 0.65s ease;
+      box-shadow: 4px 0 0 #000;
+    }
+
+    .magazine:hover .mag-cover {
+      transform: rotateY(-158deg);
+      box-shadow: -16px 0 0 #000;
+    }
+
+    .mag-cover::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+      background: #000;
+      z-index: 1;
+    }
+
+    .cover-front {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      background: var(--cover-bg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border: 3px solid #000;
+    }
+
+    /* Large accent bar takes up more height */
+    .cover-bar {
+      height: 10px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .cover-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 8px 10px 8px;
+      gap: 4px;
+      position: relative;
+    }
+
+    /* Giant issue number as bg */
+    .cover-body::before {
+      content: attr(data-issue);
+      position: absolute;
+      bottom: -10px;
+      right: -5px;
+      font-size: 7rem;
+      font-weight: 900;
+      color: rgba(0,0,0,0.05);
+      line-height: 1;
+      font-family: 'Arial Black', sans-serif;
+      pointer-events: none;
+    }
+
+    .cover-tag {
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--accent);
+      font-weight: 900;
+      padding: 2px 5px;
+      display: inline-block;
+      align-self: flex-start;
+    }
+
+    .cover-headline {
+      font-size: 1.05rem;
+      font-weight: 900;
+      line-height: 1.05;
+      color: #000;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+
+    .cover-rule {
+      height: 4px;
+      background: var(--accent);
+      width: 40px;
+    }
+
+    .cover-deck {
+      font-size: 0.52rem;
+      color: #555;
+      line-height: 1.45;
+      font-family: Georgia, serif;
+      font-weight: normal;
+    }
+
+    .cover-byline {
+      font-size: 0.48rem;
+      color: #888;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: auto;
+      font-family: 'Arial', sans-serif;
+      font-weight: 700;
+    }
+
+    /* Bottom accent bar */
+    .cover-bottom-bar {
+      height: 8px;
+      background: #000;
+      flex-shrink: 0;
+    }
+
+    .cover-back {
+      position: absolute;
+      inset: 0;
+      background: #000;
+      backface-visibility: hidden;
+      transform: rotateY(180deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid #000;
+    }
+
+    .cover-back-text {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      font-weight: 900;
+    }
+
+    .footer-line {
+      margin: 2rem 0 2rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #aaa;
+      font-family: 'Arial', sans-serif;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="style-nav">
+    <a href="books.html">Original</a>
+    <a href="books-dark.html">Dark</a>
+    <a href="books-brutal.html" class="active">Brutal</a>
+    <a href="books-retro.html">Retro</a>
+    <a href="books-swiss.html">Swiss</a>
+    <a href="books-scroll.html">Scroll</a>
+  </nav>
+
+  <header class="masthead">
+    <div class="masthead-rule"></div>
+    <div class="masthead-meta">
+      <span>Vol. XLVII &nbsp;/&nbsp; No. 23</span>
+      <span>June 6, 2026</span>
+      <span>kwekutech.com</span>
+    </div>
+    <h1 class="masthead-title">Books</h1>
+    <div class="masthead-rule thin"></div>
+    <div class="masthead-rule" style="margin-top:4px"></div>
+    <div class="masthead-sub">Technology &nbsp;/&nbsp; Culture &nbsp;/&nbsp; Science &nbsp;/&nbsp; Politics &nbsp;/&nbsp; Arts</div>
+  </header>
+
+  <div class="section-label">↓ &nbsp; Latest Issues &nbsp; — &nbsp; Hover to Open</div>
+
+  <div class="shelf-wrap">
+    <div class="magazine-row">
+
+      <div class="magazine" style="--cover-bg:#fff;--accent:#0044cc;--accent-dark:#002288">
+        <div class="mag-inside">
+          <div class="inside-kicker">Technology</div>
+          <div class="inside-headline">AI Reshapes the Global Economy</div>
+          <div class="inside-rule"></div>
+          <div class="inside-pull">"The question is no longer if machines will think — but whether we are ready."</div>
+          <div class="inside-columns">
+            <div class="inside-col"><div class="inside-img"></div>Across financial markets and manufacturing floors, AI is rewriting rules of production at a pace few anticipated.</div>
+            <div class="inside-col">Governments scramble to draft regulatory frameworks as corporate adoption outpaces legislation worldwide.</div>
+          </div>
+        </div>
+        <div class="mag-cover">
+          <div class="cover-front">
+            <div class="cover-bar"></div>
+            <div class="cover-body" data-issue="23">
+              <div class="cover-tag">Technology</div>
+              <div class="cover-headline">AI Reshapes the Global Economy</div>
+              <div class="cover-rule"></div>
+              <div class="cover-deck">How machine intelligence is rewriting the rules of production, labour, and profit.</div>
+              <div class="cover-byline">Dispatch &nbsp;/&nbsp; Issue 23</div>
+            </div>
+            <div class="cover-bottom-bar"></div>
+          </div>
+          <div class="cover-back"><span class="cover-back-text">Dispatch</span></div>
+        </div>
+      </div>
+
+      <div class="magazine" style="--cover-bg:#fff;--accent:#cc0000;--accent-dark:#880000">
+        <div class="mag-inside">
+          <div class="inside-kicker">Culture</div>
+          <div class="inside-headline">The Renaissance of Print</div>
+          <div class="inside-rule"></div>
+          <div class="inside-pull">"In a world of infinite scroll, the printed page feels almost radical."</div>
+          <div class="inside-columns">
+            <div class="inside-col"><div class="inside-img"></div>Independent magazines surge as readers seek curated, deliberate media over algorithmic feeds.</div>
+            <div class="inside-col">Young designers rediscover letterpress and hand-binding — turning publications into objects.</div>
+          </div>
+        </div>
+        <div class="mag-cover">
+          <div class="cover-front">
+            <div class="cover-bar"></div>
+            <div class="cover-body" data-issue="11">
+              <div class="cover-tag">Culture</div>
+              <div class="cover-headline">The Renaissance of Print</div>
+              <div class="cover-rule"></div>
+              <div class="cover-deck">Why independent magazines are thriving in the age of the algorithm.</div>
+              <div class="cover-byline">Vista &nbsp;/&nbsp; Issue 11</div>
+            </div>
+            <div class="cover-bottom-bar"></div>
+          </div>
+          <div class="cover-back"><span class="cover-back-text">Vista</span></div>
+        </div>
+      </div>
+
+      <div class="magazine" style="--cover-bg:#fff;--accent:#006622;--accent-dark:#003311">
+        <div class="mag-inside">
+          <div class="inside-kicker">Science</div>
+          <div class="inside-headline">Dark Matter: A New Theory</div>
+          <div class="inside-rule"></div>
+          <div class="inside-pull">"We have been looking for the wrong thing in the wrong places for thirty years."</div>
+          <div class="inside-columns">
+            <div class="inside-col"><div class="inside-img"></div>Physicists from CERN and MIT propose a radical revision to the standard model to explain missing mass.</div>
+            <div class="inside-col">The framework suggests a fifth fundamental force operating only at cosmic scales, invisible to colliders.</div>
+          </div>
+        </div>
+        <div class="mag-cover">
+          <div class="cover-front">
+            <div class="cover-bar"></div>
+            <div class="cover-body" data-issue="47">
+              <div class="cover-tag">Science</div>
+              <div class="cover-headline">Dark Matter: A New Theory</div>
+              <div class="cover-rule"></div>
+              <div class="cover-deck">Physicists propose a fifth force that could explain the universe's missing mass.</div>
+              <div class="cover-byline">Nexus &nbsp;/&nbsp; Issue 47</div>
+            </div>
+            <div class="cover-bottom-bar"></div>
+          </div>
+          <div class="cover-back"><span class="cover-back-text">Nexus</span></div>
+        </div>
+      </div>
+
+      <div class="magazine" style="--cover-bg:#fff;--accent:#000000;--accent-dark:#222222">
+        <div class="mag-inside">
+          <div class="inside-kicker">Politics</div>
+          <div class="inside-headline">Elections in the Digital Age</div>
+          <div class="inside-rule"></div>
+          <div class="inside-pull">"Democracy now runs on infrastructure built by companies answerable to no electorate."</div>
+          <div class="inside-columns">
+            <div class="inside-col"><div class="inside-img"></div>Deepfakes and micro-targeting have exposed how digital platforms are embedded in the machinery of governance.</div>
+            <div class="inside-col">Fourteen countries launched investigations into AI-generated campaign material with no consensus on legislation.</div>
+          </div>
+        </div>
+        <div class="mag-cover">
+          <div class="cover-front">
+            <div class="cover-bar"></div>
+            <div class="cover-body" data-issue="08">
+              <div class="cover-tag">Politics</div>
+              <div class="cover-headline">Elections in the Digital Age</div>
+              <div class="cover-rule"></div>
+              <div class="cover-deck">How AI content and platform power are reshaping democratic politics.</div>
+              <div class="cover-byline">Forum &nbsp;/&nbsp; Issue 08</div>
+            </div>
+            <div class="cover-bottom-bar"></div>
+          </div>
+          <div class="cover-back"><span class="cover-back-text">Forum</span></div>
+        </div>
+      </div>
+
+      <div class="magazine" style="--cover-bg:#fff;--accent:#cc5500;--accent-dark:#883300">
+        <div class="mag-inside">
+          <div class="inside-kicker">The Arts</div>
+          <div class="inside-headline">Modern Art's Return to Craft</div>
+          <div class="inside-rule"></div>
+          <div class="inside-pull">"After a decade of concept, artists are falling back in love with their hands."</div>
+          <div class="inside-columns">
+            <div class="inside-col"><div class="inside-img"></div>Artists who built careers via Instagram and NFTs are quietly retreating to studios, clay, lino, and glass.</div>
+            <div class="inside-col">Major galleries report surging demand for work bearing visible traces of the human hand — texture is back.</div>
+          </div>
+        </div>
+        <div class="mag-cover">
+          <div class="cover-front">
+            <div class="cover-bar"></div>
+            <div class="cover-body" data-issue="34">
+              <div class="cover-tag">The Arts</div>
+              <div class="cover-headline">Modern Art's Return to Craft</div>
+              <div class="cover-rule"></div>
+              <div class="cover-deck">Why the most exciting artists are putting down their screens and picking up their tools.</div>
+              <div class="cover-byline">Canvas &nbsp;/&nbsp; Issue 34</div>
+            </div>
+            <div class="cover-bottom-bar"></div>
+          </div>
+          <div class="cover-back"><span class="cover-back-text">Canvas</span></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="shelf-plank"></div>
+  </div>
+
+  <p class="footer-line">Hover over a cover to open &nbsp;/&nbsp; Books by Kweku Tech</p>
+
+</body>
+</html>

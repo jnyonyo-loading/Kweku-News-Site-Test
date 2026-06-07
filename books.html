@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Books — Kweku Tech</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root { --green: #4ade80; }
+
+    body {
+      min-height: 100vh;
+      background: #0a0a0a;
+      display: flex;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════════════════════
+       LEFT SIDE
+    ═══════════════════════════════════════════════ */
+    .lhs {
+      width: 50%;
+      min-height: 100vh;
+      padding: 2.8rem 3.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      border-right: 1px solid rgba(255,255,255,0.05);
+      overflow-y: auto;
+    }
+
+    /* Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+      background: #142214;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      color: var(--green);
+      font-weight: 900;
+      border: 1px solid rgba(74,222,128,0.18);
+      flex-shrink: 0;
+    }
+
+    .logo-words {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+    }
+
+    .logo-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .logo-sub {
+      font-size: 0.72rem;
+      color: var(--green);
+      font-weight: 500;
+    }
+
+    /* Hero */
+    .hero { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+    .hero h1 {
+      font-size: clamp(2rem, 3.2vw, 3rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+      color: #fff;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero h1 .g { color: var(--green); }
+
+    .hero p {
+      font-size: 0.875rem;
+      line-height: 1.72;
+      color: rgba(255,255,255,0.4);
+      max-width: 400px;
+    }
+
+    /* Section blocks */
+    .section { display: flex; flex-direction: column; gap: 0.65rem; }
+
+    .section-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+      font-weight: 600;
+    }
+
+    /* Chips */
+    .chips { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.7rem;
+      background: #141414;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.68);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .chip.mono { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.65rem; }
+
+    .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Socials */
+    .socials { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.38rem 0.85rem;
+      background: #141414;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.65);
+      font-weight: 500;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .social-btn:hover { border-color: rgba(74,222,128,0.35); color: var(--green); }
+
+    .social-count { color: rgba(255,255,255,0.32); font-size: 0.65rem; }
+
+    /* CTA */
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.4rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      background: transparent;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.78rem;
+      font-weight: 500;
+      cursor: pointer;
+      align-self: flex-start;
+      transition: border-color 0.2s, color 0.2s;
+      font-family: inherit;
+    }
+
+    .cta:hover { border-color: var(--green); color: var(--green); }
+
+    /* ═══════════════════════════════════════════════
+       RIGHT SIDE
+    ═══════════════════════════════════════════════ */
+    .rhs {
+      width: 50%;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Ambient green orb */
+    .rhs::before {
+      content: '';
+      position: absolute;
+      width: 480px;
+      height: 480px;
+      background: radial-gradient(circle, rgba(74,222,128,0.09) 0%, transparent 68%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* Scene */
+    .scene {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      perspective: 1200px;
+      perspective-origin: 50% 40%;
+      position: relative;
+    }
+
+    /* Float wrapper */
+    .book-float {
+      transform-style: preserve-3d;
+      animation: float 5s ease-in-out infinite;
+      filter: drop-shadow(0 0 36px rgba(74,222,128,0.22))
+              drop-shadow(0 0 12px rgba(74,222,128,0.1));
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-26px); }
+    }
+
+    /* ── Book shell ──────────────────────────────── */
+    .book {
+      --w: 210px;
+      --h: 292px;
+      --d: 5px;
+
+      width: var(--w);
+      height: var(--h);
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateY(-25deg) rotateX(2deg);
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .book-float:hover .book {
+      transform: rotateY(-6deg) rotateX(0deg);
+    }
+
+    /* Front cover */
+    .book-front {
+      position: absolute;
+      inset: 0;
+      background: #0e1c30;
+      transform: translateZ(calc(var(--d) / 2));
+      overflow: hidden;
+    }
+
+    /* Left spine */
+    .book-spine {
+      position: absolute;
+      top: 0;
+      left: calc(var(--d) / -2);
+      width: var(--d);
+      height: var(--h);
+      background: linear-gradient(90deg, #040b14 0%, #091523 55%, #0e1d30 100%);
+      transform: rotateY(-90deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Right pages */
+    .book-pages {
+      position: absolute;
+      top: 0;
+      right: calc(var(--d) / -2);
+      width: var(--d);
+      height: var(--h);
+      transform: rotateY(90deg);
+      background: repeating-linear-gradient(
+        to bottom,
+        #f6f1e9 0px, #ede8df 0.8px, #f6f1e9 1.6px
+      );
+    }
+
+    /* Top face */
+    .book-top {
+      position: absolute;
+      top: calc(var(--d) / -2);
+      left: 0;
+      width: var(--w);
+      height: var(--d);
+      background: linear-gradient(to bottom, #c8c4b6, #dbd6c8);
+      transform: rotateX(-90deg);
+    }
+
+    /* Bottom face */
+    .book-bottom {
+      position: absolute;
+      bottom: calc(var(--d) / -2);
+      left: 0;
+      width: var(--w);
+      height: var(--d);
+      background: #c0bcae;
+      transform: rotateX(90deg);
+    }
+
+    /* ── Cover design ────────────────────────────── */
+    .cover-accent-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: var(--green);
+    }
+
+    .cover-inner {
+      position: absolute;
+      inset: 6px 0 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .cover-img-wrap {
+      height: 145px;
+      flex-shrink: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .cover-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .cover-body {
+      flex: 1;
+      padding: 10px 13px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      background: #1a1a1a;
+    }
+
+    .cover-cat {
+      font-size: 0.37rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--green);
+      font-weight: 700;
+      border-bottom: 1px solid rgba(74,222,128,0.25);
+      padding-bottom: 5px;
+    }
+
+    .cover-title {
+      font-size: 0.68rem;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      color: #fff;
+      font-family: Georgia, serif;
+      flex: 1;
+    }
+
+    .cover-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: auto;
+    }
+
+    .cover-pub {
+      font-size: 0.38rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.22);
+    }
+
+    .cover-num {
+      font-size: 0.38rem;
+      color: rgba(74,222,128,0.5);
+      letter-spacing: 0.06em;
+    }
+
+    /* Spine text */
+    .spine-text {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-size: 0.38rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.22);
+      white-space: nowrap;
+    }
+
+    /* Green glow on ground */
+    .book-glow {
+      width: 200px;
+      height: 50px;
+      margin-top: 60px;
+      background: radial-gradient(ellipse at center, rgba(74,222,128,0.35) 0%, transparent 70%);
+      filter: blur(10px);
+      animation: glow-pulse 5s ease-in-out infinite;
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% { transform: scaleX(1);    opacity: 1; }
+      50%       { transform: scaleX(0.6);  opacity: 0.35; }
+    }
+
+    /* ═══════════════════════════════════════════════
+       MOBILE
+    ═══════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      body { flex-direction: column; }
+      .lhs, .rhs { width: 100%; min-height: auto; }
+      .lhs { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05); }
+      .rhs { padding: 4rem 0 5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── LEFT ──────────────────────────────────────── -->
+  <div class="lhs">
+
+    <div class="logo">
+      <div class="logo-icon">+</div>
+      <div class="logo-words">
+        <span class="logo-name">Kweku</span>
+        <span class="logo-sub">Tech News</span>
+      </div>
+    </div>
+
+    <div class="hero">
+      <h1>
+        Stories &amp; Insights<br>
+        from Africa's<br>
+        <span class="g">Tech Frontier</span>
+      </h1>
+      <p>From in-depth interviews with founders to recaps of the continent's biggest conferences, this is your go-to space for tech news, event highlights, and creative perspectives.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Companies we write about</div>
+      <div class="chips">
+        <div class="chip"><span class="dot" style="background:#4285f4"></span> Google</div>
+        <div class="chip"><span class="dot" style="background:#e74c3c"></span> hubtel</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Partners</div>
+      <div class="chips">
+        <div class="chip mono">dev:congress{};</div>
+        <div class="chip"><span class="dot" style="background:#3b82f6"></span> AyaHQ</div>
+        <div class="chip">Black Python Devs</div>
+        <div class="chip"><span style="color:var(--green);font-weight:700">AMID</span>&nbsp;Africa</div>
+        <div class="chip"><span style="font-weight:700">BBA</span>&nbsp;Ghana</div>
+        <div class="chip"><span style="color:var(--green);font-weight:700">DeFi</span>&nbsp;Africa</div>
+        <div class="chip mono">&lt;/W/&gt;</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Follow us</div>
+      <div class="socials">
+        <a class="social-btn" href="#">&#120143; X <span class="social-count">4K</span></a>
+        <a class="social-btn" href="#"><b>in</b> LinkedIn <span class="social-count">5.8K</span></a>
+        <a class="social-btn" href="#">&#9654; YouTube <span class="social-count">4K</span></a>
+        <a class="social-btn" href="#">&#9432; Instagram <span class="social-count">1.8K</span></a>
+      </div>
+    </div>
+
+    <button class="cta">See all articles &amp; podcasts &nbsp;&darr;</button>
+
+  </div>
+
+  <!-- ── RIGHT ─────────────────────────────────────── -->
+  <div class="rhs">
+    <div class="scene">
+
+      <div class="book-float">
+        <div class="book">
+
+          <div class="book-front">
+            <div class="cover-accent-bar"></div>
+            <div class="cover-inner">
+              <div class="cover-img-wrap">
+                <img src="https://firebasestorage.googleapis.com/v0/b/kweku-tech-web.firebasestorage.app/o/article_images%2Fcontent-image-1772048102067.webp?alt=media&token=7479a5bc-ff2b-433a-8380-4993a795045c" alt="Darlington Akogo" />
+              </div>
+              <div class="cover-body">
+                <div class="cover-cat">AI &amp; Health</div>
+                <div class="cover-title">How Darlington Akogo Created minoHealth AI to Fix Africa's Doctor Gap</div>
+                <div class="cover-foot">
+                  <span class="cover-pub">Kweku Tech</span>
+                  <span class="cover-num">June 2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="book-spine">
+            <span class="spine-text">Kweku Tech &middot; The Weekly Dispatch</span>
+          </div>
+
+          <div class="book-pages"></div>
+          <div class="book-top"></div>
+          <div class="book-bottom"></div>
+
+        </div>
+      </div>
+
+      <div class="book-glow"></div>
+
+    </div>
+  </div>
+
+</body>
+</html>
