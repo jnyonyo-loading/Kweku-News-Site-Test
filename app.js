@@ -365,15 +365,16 @@ function buildPodcasts() {
 
 // ── Init ──────────────────────────────────────────────────
 function init() {
-  buildCarousel();
-  startTimer();
-  buildTagFilters();
-  filterAndRender();
-  buildPodcasts();
-
-  // Hide loading veil
-  loadingVeil.classList.add('done');
-  setTimeout(() => loadingVeil.style.display = 'none', 350);
+  try {
+    buildCarousel();
+    startTimer();
+    buildTagFilters();
+    filterAndRender();
+    buildPodcasts();
+  } finally {
+    loadingVeil.classList.add('done');
+    setTimeout(() => loadingVeil.style.display = 'none', 350);
+  }
 }
 
 // CTA scrolls to article list

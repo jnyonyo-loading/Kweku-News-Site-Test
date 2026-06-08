@@ -1236,6 +1236,8 @@ body {
 /* ── Mobile: ≤ 600px ─────────────────────────────────── */
 @media (max-width: 600px) {
 
+  .fab-label { display: none; }
+
   /* Hero left */
   .hero-left {
     padding: 24px 20px 20px;
