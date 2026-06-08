@@ -786,14 +786,14 @@ body {
   align-items: center;
   gap: 8px;
   padding: 9px 16px;
-  background: #ffffff;
-  color: #111111;
+  background: #1e4d40;
+  color: #ffffff;
   border-radius: 10px;
   text-decoration: none;
   font-size: 13.5px;
   font-family: var(--font);
   transition: background 0.15s, color 0.15s, transform 0.15s;
-  border: 1px solid rgba(0,0,0,0.08);
+  border: 1px solid rgba(0,0,0,0.1);
 }
 
 .social-btn:hover {
@@ -813,13 +813,13 @@ body {
 
 .social-btn-count {
   font-size: 12.5px;
-  color: #666666;
+  color: rgba(255,255,255,0.65);
   font-weight: 400;
   transition: color 0.15s;
 }
 
 .social-btn:hover .social-btn-count {
-  color: #0D0D0B;
+  color: rgba(13,13,11,0.7);
 }
 
 /* ── Hero excerpt ─────────────────────────────────────────── */
